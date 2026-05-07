@@ -1,11 +1,54 @@
 /* AYSA WORKS — Interior Architecture
  * Norm Architects (Shoreline Studio) referans alınmıştır.
- * Body font: Inter (Euclid alternatifi, ücretsiz)
- * Heading font: Cormorant Garamond (Adobe Caslon Pro alternatifi, ücretsiz)
+ * Font: Adobe Source Sans 3 (open-source, OFL) — siteyle birlikte servis edilir.
+ * Tipografi ölçekleri: Norm Architects normcph.com'dan birebir alınmıştır.
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+/* ==================== FONTS ==================== */
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../fonts/SourceSans3-Light.otf.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/SourceSans3-Regular.otf.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/SourceSans3-It.otf.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/SourceSans3-Medium.otf.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/SourceSans3-Semibold.otf.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/SourceSans3-Bold.otf.woff2') format('woff2');
+}
 
+/* ==================== TOKENS ==================== */
 :root {
   --bg: #f5f1e5;
   --bg-alt: #f6f0de;
@@ -15,8 +58,7 @@
   --ink-mute: #9a978d;
   --line: #d8d2c2;
 
-  --serif: 'Cormorant Garamond', 'Adobe Caslon Pro', Georgia, serif;
-  --sans: 'Inter', 'Euclid', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --sans: 'Source Sans 3', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 
   --w-max: 1440px;
   --w-text: 720px;
@@ -32,10 +74,10 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--sans);
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.65;
-  letter-spacing: 0.02em;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.7;
+  letter-spacing: 0.5px;
   min-height: 100vh;
 }
 
@@ -44,16 +86,51 @@ a:hover { opacity: 0.55; }
 
 img { display: block; max-width: 100%; height: auto; }
 
+/* ==================== TYPOGRAPHY (Norm ölçekleri) ==================== */
 h1, h2, h3, h4 {
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-weight: 400;
   letter-spacing: 0;
   color: var(--ink);
 }
 
-h1 { font-size: clamp(36px, 5vw, 64px); line-height: 1.1; font-style: italic; font-weight: 300; }
-h2 { font-size: clamp(28px, 3.5vw, 44px); line-height: 1.15; }
-h3 { font-size: clamp(20px, 2.2vw, 28px); line-height: 1.25; }
+/* H1: project hero başlığı — Norm Shoreline'dan birebir
+   30px / 400 / 15px LS / uppercase / 1 line-height */
+h1 {
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: 15px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* H2: section title — Norm'un "Index" başlığı tarzı
+   13px / 700 / 8px LS / uppercase */
+h2 {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 8px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* H2 büyük varyant — Norm'da intro alanı için
+   .intro içinde kullanılır */
+
+h3 {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.3px;
+}
+
+h4 {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  line-height: 1;
+  text-transform: uppercase;
+}
 
 p { max-width: var(--w-text); }
 
@@ -68,7 +145,7 @@ p { max-width: var(--w-text); }
   align-items: center;
   padding: 0 var(--gutter);
   border-bottom: 1px solid transparent;
-  transition: border-color .3s ease, background .3s ease;
+  transition: border-color .3s ease;
 }
 .site-header.scrolled { border-bottom-color: var(--line); }
 
@@ -86,25 +163,28 @@ p { max-width: var(--w-text); }
   display: flex;
   align-items: center;
   gap: 12px;
-  font-family: var(--serif);
-  font-size: 22px;
-  letter-spacing: 0.04em;
-  font-weight: 400;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
 }
-.brand img { height: 36px; width: auto; }
+.brand img { height: 32px; width: auto; }
 .brand__name { white-space: nowrap; }
 
 /* ==================== NAV ==================== */
 .nav {
   display: flex;
   justify-content: center;
-  gap: 36px;
+  gap: 32px;
   list-style: none;
+  /* Norm: 11px / 400 / 2px LS / uppercase */
   font-size: 11px;
-  letter-spacing: 0.18em;
+  font-weight: 400;
+  letter-spacing: 2px;
   text-transform: uppercase;
+  line-height: 1;
 }
-.nav > li { position: relative; padding: 30px 0; }
+.nav > li { position: relative; padding: 32px 0; }
 .nav > li > a {
   color: var(--ink);
   display: inline-flex;
@@ -148,19 +228,22 @@ p { max-width: var(--w-text); }
   display: block;
   padding: 10px 24px;
   font-size: 11px;
-  letter-spacing: 0.18em;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   color: var(--ink);
 }
 .submenu li a:hover { background: var(--bg-soft); opacity: 1; }
 
-/* Sağ taraf — boş alan ya da küçük ikonlar */
+/* Sağ taraf */
 .header-right {
   justify-self: end;
   display: flex;
   align-items: center;
   gap: 18px;
   font-size: 11px;
-  letter-spacing: 0.18em;
+  font-weight: 400;
+  letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--ink-soft);
 }
@@ -180,7 +263,6 @@ p { max-width: var(--w-text); }
   height: 1px;
   background: currentColor;
   margin: 5px 0;
-  transition: transform .25s ease;
 }
 
 /* ==================== MAIN / HERO ==================== */
@@ -206,13 +288,14 @@ main { padding-top: var(--header-h); }
   position: absolute;
   left: var(--gutter); bottom: 40px;
   color: #fff;
-  font-family: var(--serif);
+  /* Norm Caslon italic yerine: Source Sans Italic, geniş */
   font-style: italic;
-  font-size: clamp(28px, 3.5vw, 48px);
   font-weight: 300;
-  max-width: 600px;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.25);
-  line-height: 1.15;
+  font-size: clamp(22px, 2.6vw, 36px);
+  letter-spacing: 0.5px;
+  max-width: 640px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.35);
+  line-height: 1.2;
 }
 
 /* ==================== INTRO BLOCK ==================== */
@@ -227,14 +310,18 @@ main { padding-top: var(--header-h); }
   text-align: center;
 }
 .intro h2 {
-  font-style: italic;
-  font-weight: 300;
+  /* Section title boyutu — Norm Index başlığı + biraz daha büyük */
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 6px;
   margin-bottom: 32px;
 }
 .intro p {
   margin: 0 auto;
   font-size: 14px;
+  font-weight: 500;
   line-height: 1.85;
+  letter-spacing: 0.3px;
   color: var(--ink-soft);
 }
 
@@ -244,19 +331,24 @@ main { padding-top: var(--header-h); }
   max-width: var(--w-max);
   margin: 0 auto;
 }
+
 .section-eyebrow {
   text-align: center;
-  font-size: 11px;
-  letter-spacing: 0.25em;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 4px;
   text-transform: uppercase;
   color: var(--ink-mute);
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
+
 .section-title {
   text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 6px;
+  text-transform: uppercase;
   margin-bottom: clamp(50px, 7vw, 90px);
-  font-style: italic;
-  font-weight: 300;
 }
 
 .project-grid {
@@ -282,14 +374,17 @@ main { padding-top: var(--header-h); }
 .project-card:hover .project-card__img img { transform: scale(1.04); }
 
 .project-card__title {
-  font-family: var(--serif);
-  font-size: 22px;
-  font-weight: 400;
-  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  line-height: 1.3;
 }
 .project-card__meta {
-  font-size: 11px;
-  letter-spacing: 0.16em;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--ink-mute);
 }
@@ -303,12 +398,15 @@ main { padding-top: var(--header-h); }
 }
 .project-hero h1 {
   margin-bottom: 36px;
+  /* H1 zaten 30px/400/15px LS/uppercase */
 }
 .project-hero p {
   max-width: 720px;
   margin: 0 auto;
   font-size: 14px;
+  font-weight: 500;
   line-height: 1.85;
+  letter-spacing: 0.3px;
   color: var(--ink-soft);
 }
 
@@ -335,8 +433,9 @@ main { padding-top: var(--header-h); }
   text-align: center;
   padding: clamp(40px, 6vw, 80px) var(--gutter);
   border-top: 1px solid var(--line);
-  font-size: 11px;
-  letter-spacing: 0.18em;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--ink-soft);
   max-width: var(--w-max);
@@ -352,9 +451,8 @@ main { padding-top: var(--header-h); }
 }
 .project-index h2 {
   text-align: center;
-  font-style: italic;
-  font-weight: 300;
   margin-bottom: clamp(40px, 5vw, 70px);
+  /* h2 zaten 13px/700/8px LS/uppercase */
 }
 .project-index__grid {
   display: grid;
@@ -371,8 +469,9 @@ main { padding-top: var(--header-h); }
   margin-bottom: 8px;
 }
 .project-index__item p {
-  font-size: 11px;
-  letter-spacing: 0.2em;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
   color: var(--ink-mute);
 }
 
@@ -395,12 +494,12 @@ main { padding-top: var(--header-h); }
 }
 .about-text h1 {
   margin-bottom: 28px;
-  font-style: italic;
-  font-weight: 300;
 }
 .about-text p {
   font-size: 14px;
+  font-weight: 500;
   line-height: 1.85;
+  letter-spacing: 0.3px;
   color: var(--ink-soft);
   margin-bottom: 18px;
 }
@@ -412,20 +511,31 @@ main { padding-top: var(--header-h); }
   margin: 0 auto;
   text-align: center;
 }
-.contact-section h1 { margin-bottom: 36px; font-style: italic; font-weight: 300; }
-.contact-section p { font-size: 14px; line-height: 1.9; color: var(--ink-soft); margin: 0 auto 14px; }
+.contact-section h1 { margin-bottom: 36px; }
+.contact-section p {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.9;
+  letter-spacing: 0.3px;
+  color: var(--ink-soft);
+  margin: 0 auto 14px;
+}
 .contact-list {
   list-style: none;
   margin-top: 50px;
-  font-size: 14px;
-  line-height: 2.1;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 2;
+  letter-spacing: 0.3px;
 }
 .contact-list strong {
-  font-family: var(--serif);
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   display: block;
   margin-top: 18px;
+  color: var(--ink);
 }
 
 /* ==================== FOOTER ==================== */
@@ -433,18 +543,19 @@ main { padding-top: var(--header-h); }
   border-top: 1px solid var(--line);
   padding: 50px var(--gutter);
   text-align: center;
-  font-size: 11px;
-  letter-spacing: 0.18em;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--ink-mute);
 }
 .site-footer p { margin: 0 auto; }
 
 /* ==================== UTIL ==================== */
-.center { text-align: center; }
 .eyebrow {
-  font-size: 11px;
-  letter-spacing: 0.25em;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 4px;
   text-transform: uppercase;
   color: var(--ink-mute);
 }
@@ -455,8 +566,10 @@ main { padding-top: var(--header-h); }
   .menu-toggle { display: block; }
   .nav, .header-right { display: none; }
   .site-header__inner { grid-template-columns: 1fr auto; }
-  .brand img { height: 28px; }
-  .brand__name { font-size: 18px; }
+  .brand img { height: 26px; }
+  .brand__name { font-size: 12px; letter-spacing: 2px; }
+
+  h1 { font-size: 22px; letter-spacing: 8px; }
 
   .nav.is-open {
     display: flex;
