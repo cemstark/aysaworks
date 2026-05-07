@@ -11,7 +11,7 @@ require __DIR__ . '/_inc/header.php';
 
 <section class="hero">
   <div class="hero__media">
-    <img src="<?= e(url('images/oda.jpeg')) ?>" alt="Aysa Works iç mekân — sade yaşam alanı" />
+    <img src="<?= e(url('images/oda.webp')) ?>" alt="Aysa Works iç mekân — sade yaşam alanı" width="2560" height="1212" fetchpriority="high" decoding="async" />
     <p class="hero__caption">Mekân ve malzemeyle<br/>sessiz bir diyalog.</p>
   </div>
 </section>
