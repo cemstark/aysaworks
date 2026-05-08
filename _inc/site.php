@@ -33,3 +33,12 @@ function url(string $path, string $root = ''): string
     $root = $root ?: ($GLOBALS['root'] ?? './');
     return $root . ltrim($path, '/');
 }
+
+function asset_url(string $path, string $root = ''): string
+{
+    $url = url($path, $root);
+    $file = __DIR__ . '/../' . ltrim($path, '/');
+    $version = is_file($file) ? (string)filemtime($file) : (string)$GLOBALS['site']['year'];
+
+    return $url . (str_contains($url, '?') ? '&' : '?') . 'v=' . rawurlencode($version);
+}

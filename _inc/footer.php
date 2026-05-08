@@ -4,6 +4,6 @@
   <p>© <?= e((string)$site['year']) ?> <?= e($site['name']) ?> · <?= e($site['city']) ?></p>
 </footer>
 
-<script src="<?= e(url('assets/js/main.js')) ?>"></script>
+<script src="<?= e(asset_url('assets/js/main.js')) ?>"></script>
 </body>
 </html>

@@ -25,7 +25,7 @@ $pageTitle = $pageTitle ?? ($site['name'] . ' — ' . $site['tagline']);
   <title><?= e($pageTitle) ?></title>
   <link rel="icon" type="image/webp" href="<?= e(url('images/logo.webp')) ?>" />
   <link rel="apple-touch-icon" href="<?= e(url('images/logo.webp')) ?>" />
-  <link rel="stylesheet" href="<?= e(url('assets/css/main.css')) ?>" />
+  <link rel="stylesheet" href="<?= e(asset_url('assets/css/main.css')) ?>" />
 </head>
 <body>
 
