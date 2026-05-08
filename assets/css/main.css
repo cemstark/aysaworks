@@ -866,11 +866,8 @@ main { padding-top: var(--header-h); }
     flex-basis: 34px;
     width: 34px;
     height: 34px;
-    border: 1px solid rgba(56, 56, 57, 0.18);
-    border-radius: 50%;
     background-size: 64px auto;
     background-position: center 62%;
-    overflow: hidden;
   }
   .brand__name { display: none; }
   .menu-toggle,
