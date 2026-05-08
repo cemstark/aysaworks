@@ -824,17 +824,20 @@ main { padding-top: var(--header-h); }
     gap: 8px;
   }
   .brand {
-    min-width: 50px;
+    min-width: 34px;
     align-self: stretch;
     position: relative;
     z-index: 1;
   }
   .brand::before {
-    flex-basis: 50px;
-    width: 50px;
+    flex-basis: 34px;
+    width: 34px;
     height: 34px;
-    background-size: 104px auto;
+    border: 1px solid rgba(56, 56, 57, 0.18);
+    border-radius: 50%;
+    background-size: 78px auto;
     background-position: center 62%;
+    overflow: hidden;
   }
   .brand__name { display: none; }
   .menu-toggle,
@@ -848,7 +851,7 @@ main { padding-top: var(--header-h); }
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 8px;
+    gap: 9px;
     flex-wrap: nowrap;
     font-size: 8.5px;
     letter-spacing: 0.55px;
@@ -881,21 +884,24 @@ main { padding-top: var(--header-h); }
   }
   .submenu,
   .nav > li.has-sub:hover .submenu {
-    position: fixed;
-    top: var(--header-h);
-    left: 0;
-    right: 0;
-    transform: translateY(-8px);
+    position: absolute;
+    top: calc(100% - 4px);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%) translateY(-6px);
     display: flex;
-    justify-content: flex-end;
-    gap: 22px;
-    padding: 13px var(--gutter) 14px;
-    min-height: 46px;
-    min-width: 0;
-    background: rgba(245, 241, 229, 0.72);
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0;
+    width: max-content;
+    min-width: 78px;
+    min-height: 0;
+    padding: 7px 10px 7px 12px;
+    background: rgba(245, 241, 229, 0.82);
     border: 0;
-    border-top: 1px solid rgba(216, 210, 194, 0.75);
-    border-bottom: 1px solid rgba(216, 210, 194, 0.55);
+    border-left: 1px solid rgba(56, 56, 57, 0.34);
+    border-radius: 0;
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     opacity: 0;
@@ -906,14 +912,14 @@ main { padding-top: var(--header-h); }
   .nav > li.has-sub.open .submenu {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0);
     pointer-events: auto;
   }
   .submenu li a {
     padding: 0;
-    font-size: 10px;
-    letter-spacing: 1.3px;
-    min-height: 22px;
+    font-size: 9.5px;
+    letter-spacing: 1px;
+    min-height: 24px;
     display: flex;
     align-items: center;
     white-space: nowrap;
