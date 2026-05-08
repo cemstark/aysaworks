@@ -1,4 +1,7 @@
 references/
+.lazyweb/
+codex-push-work/
+research-reports/
 .playwright-mcp/
 .DS_Store
 Thumbs.db
