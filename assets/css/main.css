@@ -804,8 +804,8 @@ main { padding-top: var(--header-h); }
 /* ==================== MOBILE ==================== */
 @media (max-width: 900px) {
   :root {
-    --header-h: 78px;
-    --gutter: clamp(14px, 4vw, 22px);
+    --header-h: 58px;
+    --gutter: clamp(10px, 3vw, 14px);
   }
 
   body {
@@ -821,19 +821,19 @@ main { padding-top: var(--header-h); }
   }
   .site-header__inner {
     grid-template-columns: auto minmax(0, 1fr);
-    gap: 10px;
+    gap: 8px;
   }
   .brand {
-    min-width: 92px;
+    min-width: 50px;
     align-self: stretch;
     position: relative;
     z-index: 1;
   }
   .brand::before {
-    flex-basis: 92px;
-    width: 92px;
-    height: 48px;
-    background-size: 174px auto;
+    flex-basis: 50px;
+    width: 50px;
+    height: 34px;
+    background-size: 104px auto;
     background-position: center 62%;
   }
   .brand__name { display: none; }
@@ -848,28 +848,29 @@ main { padding-top: var(--header-h); }
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 7px 12px;
-    flex-wrap: wrap;
-    font-size: 10px;
-    letter-spacing: 1.4px;
+    gap: 8px;
+    flex-wrap: nowrap;
+    font-size: 8.5px;
+    letter-spacing: 0.55px;
     line-height: 1;
-    max-width: 244px;
+    max-width: none;
     margin-left: auto;
+    min-width: 0;
   }
   .nav > li {
     padding: 0;
     border-bottom: 0;
   }
   .nav > li > a {
-    min-height: 28px;
-    padding: 7px 0;
-    gap: 4px;
+    min-height: 36px;
+    padding: 10px 0;
+    gap: 3px;
     white-space: nowrap;
   }
   .nav > li.has-sub > a::after {
-    width: 4px;
-    height: 4px;
-    margin-left: 2px;
+    width: 3px;
+    height: 3px;
+    margin-left: 1px;
     transform: translateY(-1px) rotate(45deg);
   }
   .nav > li.has-sub:hover > a::after {
@@ -888,8 +889,8 @@ main { padding-top: var(--header-h); }
     display: flex;
     justify-content: flex-end;
     gap: 22px;
-    padding: 15px var(--gutter) 16px;
-    min-height: 52px;
+    padding: 13px var(--gutter) 14px;
+    min-height: 46px;
     min-width: 0;
     background: rgba(245, 241, 229, 0.72);
     border: 0;
@@ -910,8 +911,8 @@ main { padding-top: var(--header-h); }
   }
   .submenu li a {
     padding: 0;
-    font-size: 11px;
-    letter-spacing: 1.8px;
+    font-size: 10px;
+    letter-spacing: 1.3px;
     min-height: 22px;
     display: flex;
     align-items: center;
