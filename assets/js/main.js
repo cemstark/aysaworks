@@ -97,6 +97,30 @@
     if (!nav.contains(e.target)) closeSubmenus();
   });
 
+  // Mobilde proje kartı: ilk tık önizleme, ikinci tık linke gider.
+  const projectCards = Array.from(document.querySelectorAll('.project-card'));
+  const closeProjectPreviews = (except) => {
+    projectCards.forEach((card) => {
+      if (card !== except) card.classList.remove('is-preview');
+    });
+  };
+
+  projectCards.forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (window.innerWidth > MOBILE_BP) return;
+      if (card.classList.contains('is-preview')) return;
+
+      e.preventDefault();
+      closeProjectPreviews(card);
+      card.classList.add('is-preview');
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (window.innerWidth > MOBILE_BP) return;
+    if (!e.target.closest('.project-card')) closeProjectPreviews();
+  });
+
   // Aktif menü öğesi
   const path = location.pathname.replace(/index\.html$/, '').replace(/\/$/, '');
   document.querySelectorAll('.nav a').forEach((a) => {
