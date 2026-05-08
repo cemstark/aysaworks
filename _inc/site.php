@@ -5,7 +5,7 @@ $site = [
     'name'      => 'Aysa Works',
     'tagline'   => 'İç Mimarlık & Tasarım Stüdyosu',
     'city'      => 'İstanbul',
-    'email'     => 'aysayagizz@gmail.com',
+    'email'     => 'cemy695@gmail.com',
     'instagram' => 'https://www.instagram.com/aysaworks',
     'year'      => 2026,
 ];
