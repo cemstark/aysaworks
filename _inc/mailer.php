@@ -3,6 +3,31 @@ declare(strict_types=1);
 
 use PHPMailer\PHPMailer\PHPMailer;
 
+function inquiry_mail_log(string $message, array $context = []): void
+{
+    $safeContext = [];
+    foreach ($context as $key => $value) {
+        if (in_array((string)$key, ['password', 'token', 'secret'], true)) {
+            continue;
+        }
+        $safeContext[(string)$key] = is_scalar($value) ? (string)$value : gettype($value);
+    }
+
+    error_log('Aysa Works inquiry mail: ' . $message . ($safeContext ? ' ' . json_encode($safeContext, JSON_UNESCAPED_UNICODE) : ''));
+}
+
+function inquiry_project_type_label(string $projectType): string
+{
+    $labels = [
+        'konut' => 'Konut',
+        'ticari' => 'Ticari mekan',
+        'mobilya' => 'Mobilya',
+        'obje' => 'Obje',
+    ];
+
+    return $labels[$projectType] ?? $projectType;
+}
+
 function phpmailer_available(): bool
 {
     $base = __DIR__ . '/../vendor/phpmailer/phpmailer/src/';
@@ -22,22 +47,31 @@ function inquiry_native_mail(array $site, array $data): void
     $clientName = trim($data['first_name'] . ' ' . $data['last_name']);
     $lines = inquiry_rows($data);
     $body = "Yeni proje talebi\n\n" . implode("\n", $lines);
+    $from = trim((string)(getenv('MAIL_FROM') ?: $site['email']));
     $headers = [
         'MIME-Version: 1.0',
         'Content-Type: text/plain; charset=UTF-8',
-        'From: ' . $site['name'] . ' <' . $site['email'] . '>',
+        'From: ' . $site['name'] . ' <' . $from . '>',
         'Reply-To: ' . $clientName . ' <' . $data['email'] . '>',
     ];
 
-    if (!mail($site['email'], 'Yeni proje talebi - ' . $clientName, $body, implode("\r\n", $headers))) {
-        throw new RuntimeException('PHP mail() gönderimi başarısız oldu.');
+    inquiry_mail_log('native mail attempt', [
+        'to' => $site['email'],
+        'from' => $from,
+    ]);
+
+    if (!function_exists('mail') || !mail($site['email'], 'Yeni proje talebi - ' . $clientName, $body, implode("\r\n", $headers))) {
+        throw new RuntimeException('PHP mail() gönderimi başarısız oldu. MAIL_HOST ile SMTP ayarı gerekli olabilir.');
     }
+
+    inquiry_mail_log('native mail accepted', ['to' => $site['email']]);
 }
 
 function inquiry_rows(array $data): array
 {
     $clientName = trim($data['first_name'] . ' ' . $data['last_name']);
     $rows = [
+        'Proje türü' => inquiry_project_type_label((string)($data['project_type'] ?? '')),
         'Ad Soyad' => $clientName,
         'Telefon' => $data['phone'],
         'E-posta' => $data['email'],
@@ -45,6 +79,9 @@ function inquiry_rows(array $data): array
         'Alan' => $data['square_footage'],
         'Oda sayısı' => $data['bedrooms'],
         'Banyo sayısı' => $data['bathrooms'],
+        'Ürün tipi' => $data['item_type'] ?? '',
+        'Ölçü / adet' => $data['dimensions'] ?? '',
+        'Malzeme tercihi' => $data['material_preference'] ?? '',
         'Başlangıç tarihi' => $data['start_date'],
         'Hedef tamamlanma' => $data['completion_date'],
         'İnşaat bütçesi' => $data['construction_budget'],
@@ -69,6 +106,7 @@ function site_mailer(array $site)
     $mail = new PHPMailer(true);
     $mail->CharSet = 'UTF-8';
     $mail->Encoding = 'base64';
+    $mail->Timeout = (int)(getenv('MAIL_TIMEOUT') ?: 15);
 
     $host = trim((string)getenv('MAIL_HOST'));
     if ($host !== '') {
@@ -87,6 +125,13 @@ function site_mailer(array $site)
         } elseif ($encryption === 'tls' || $encryption === 'starttls') {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         }
+
+        if (filter_var(getenv('MAIL_DEBUG'), FILTER_VALIDATE_BOOLEAN)) {
+            $mail->SMTPDebug = 2;
+            $mail->Debugoutput = static function (string $line, int $level): void {
+                inquiry_mail_log('smtp debug', ['level' => $level, 'line' => $line]);
+            };
+        }
     } else {
         $mail->isMail();
     }
@@ -94,6 +139,7 @@ function site_mailer(array $site)
     $from = trim((string)(getenv('MAIL_FROM') ?: $site['email']));
     $fromName = trim((string)(getenv('MAIL_FROM_NAME') ?: $site['name']));
     $mail->setFrom($from, $fromName);
+    $mail->Sender = $from;
 
     return $mail;
 }
@@ -108,6 +154,13 @@ function inquiry_send(array $site, array $data): void
     $mail = site_mailer($site);
     $recipient = $site['email'];
     $clientName = trim($data['first_name'] . ' ' . $data['last_name']);
+
+    inquiry_mail_log('send attempt', [
+        'transport' => trim((string)getenv('MAIL_HOST')) !== '' ? 'smtp' : 'php-mail',
+        'to' => $recipient,
+        'from' => $mail->From,
+        'subject' => 'Yeni proje talebi - ' . $clientName,
+    ]);
 
     $mail->addAddress($recipient, $site['name']);
     $mail->addReplyTo($data['email'], $clientName);
@@ -132,4 +185,9 @@ function inquiry_send(array $site, array $data): void
         . '</table>';
     $mail->AltBody = "Yeni proje talebi\n\n" . implode("\n", inquiry_rows($data));
     $mail->send();
+
+    inquiry_mail_log('send accepted', [
+        'transport' => trim((string)getenv('MAIL_HOST')) !== '' ? 'smtp' : 'php-mail',
+        'to' => $recipient,
+    ]);
 }

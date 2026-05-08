@@ -9,6 +9,17 @@ $success = (bool)($_SESSION['contact_success'] ?? false);
 $old = $_SESSION['contact_old'] ?? [];
 unset($_SESSION['contact_errors'], $_SESSION['contact_success']);
 
+$projectTypes = [
+    'konut' => 'Konut',
+    'ticari' => 'Ticari mekan',
+    'mobilya' => 'Mobilya',
+    'obje' => 'Obje',
+];
+$selectedProjectType = (string)($old['project_type'] ?? 'konut');
+if (!isset($projectTypes[$selectedProjectType])) {
+    $selectedProjectType = 'konut';
+}
+
 if (empty($_SESSION['contact_csrf'])) {
     $_SESSION['contact_csrf'] = bin2hex(random_bytes(32));
 }
@@ -62,6 +73,18 @@ require __DIR__ . '/_inc/header.php';
         </div>
       <?php endif; ?>
 
+      <fieldset class="project-type-fieldset">
+        <legend>Proje türü</legend>
+        <div class="project-type-options">
+          <?php foreach ($projectTypes as $value => $label): ?>
+            <label class="project-type-option">
+              <input type="radio" name="project_type" value="<?= e($value) ?>"<?= $selectedProjectType === $value ? ' checked' : '' ?> />
+              <span><?= e($label) ?></span>
+            </label>
+          <?php endforeach; ?>
+        </div>
+      </fieldset>
+
       <div class="form-grid">
         <label>
           <span>Ad*</span>
@@ -79,21 +102,33 @@ require __DIR__ . '/_inc/header.php';
           <span>E-posta*</span>
           <input type="email" name="email" autocomplete="email" value="<?= old_value($old, 'email') ?>" required />
         </label>
-        <label class="form-wide">
+        <label class="form-wide" data-projects="konut ticari">
           <span>Proje adresi / lokasyon</span>
           <input type="text" name="property_address" autocomplete="street-address" value="<?= old_value($old, 'property_address') ?>" />
         </label>
-        <label>
+        <label data-projects="konut ticari">
           <span>Alan*</span>
           <input type="text" name="square_footage" placeholder="Örn. 180 m²" value="<?= old_value($old, 'square_footage') ?>" required />
         </label>
-        <label>
+        <label data-projects="konut">
           <span>Oda sayısı</span>
           <input type="text" name="bedrooms" value="<?= old_value($old, 'bedrooms') ?>" />
         </label>
-        <label>
+        <label data-projects="konut">
           <span>Banyo sayısı</span>
           <input type="text" name="bathrooms" value="<?= old_value($old, 'bathrooms') ?>" />
+        </label>
+        <label data-projects="mobilya obje">
+          <span>Ürün tipi*</span>
+          <input type="text" name="item_type" placeholder="Örn. yemek masası, aydınlatma" value="<?= old_value($old, 'item_type') ?>" />
+        </label>
+        <label data-projects="mobilya obje">
+          <span>Ölçü / adet</span>
+          <input type="text" name="dimensions" placeholder="Örn. 220 x 90 cm, 4 adet" value="<?= old_value($old, 'dimensions') ?>" />
+        </label>
+        <label class="form-wide" data-projects="mobilya obje">
+          <span>Malzeme tercihi</span>
+          <input type="text" name="material_preference" placeholder="Örn. ceviz, traverten, pirinç" value="<?= old_value($old, 'material_preference') ?>" />
         </label>
         <label>
           <span>Başlangıç tarihi</span>
@@ -103,16 +138,16 @@ require __DIR__ . '/_inc/header.php';
           <span>Hedef tamamlanma</span>
           <input type="text" name="completion_date" placeholder="GG/AA/YYYY" value="<?= old_value($old, 'completion_date') ?>" />
         </label>
-        <label>
+        <label data-projects="konut ticari">
           <span>İnşaat bütçesi</span>
           <input type="text" name="construction_budget" value="<?= old_value($old, 'construction_budget') ?>" />
         </label>
         <label>
-          <span>Mobilya & dekor bütçesi</span>
+          <span data-label-konut="Mobilya & dekor bütçesi" data-label-ticari="Mobilya & dekor bütçesi" data-label-mobilya="Mobilya bütçesi" data-label-obje="Obje bütçesi">Mobilya & dekor bütçesi</span>
           <input type="text" name="furniture_budget" value="<?= old_value($old, 'furniture_budget') ?>" />
         </label>
         <label class="form-wide">
-          <span>İş kapsamı*</span>
+          <span data-label-konut="İş kapsamı*" data-label-ticari="İş kapsamı*" data-label-mobilya="Tasarım talebi*" data-label-obje="Tasarım talebi*">İş kapsamı*</span>
           <textarea name="scope" rows="5" required><?= old_value($old, 'scope') ?></textarea>
         </label>
         <label class="form-wide">
@@ -122,7 +157,6 @@ require __DIR__ . '/_inc/header.php';
       </div>
 
       <button class="form-submit" type="submit">Talebi gönder</button>
-      <p class="form-note">Form doğrudan <?= e($site['email']) ?> adresine iletilir.</p>
     </form>
   </div>
 </section>

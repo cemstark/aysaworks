@@ -36,4 +36,50 @@
       a.style.fontWeight = '500';
     }
   });
+
+  document.querySelectorAll('.form-alert--success').forEach((alert) => {
+    window.setTimeout(() => {
+      alert.classList.add('is-hiding');
+      window.setTimeout(() => alert.remove(), 300);
+    }, 5000);
+  });
+
+  const inquiryForm = document.querySelector('.inquiry-form');
+  if (inquiryForm) {
+    const projectInputs = inquiryForm.querySelectorAll('input[name="project_type"]');
+    const projectFields = inquiryForm.querySelectorAll('[data-projects]');
+    const dynamicLabels = inquiryForm.querySelectorAll('[data-label-konut]');
+
+    const selectedProjectType = () => {
+      const selected = inquiryForm.querySelector('input[name="project_type"]:checked');
+      return selected ? selected.value : 'konut';
+    };
+
+    const syncProjectFields = () => {
+      const projectType = selectedProjectType();
+
+      projectFields.forEach((field) => {
+        const allowed = (field.dataset.projects || '').split(/\s+/).filter(Boolean);
+        const isVisible = allowed.includes(projectType);
+        field.classList.toggle('form-field-hidden', !isVisible);
+        field.querySelectorAll('input, textarea, select').forEach((control) => {
+          control.disabled = !isVisible;
+          if (control.name === 'square_footage') {
+            control.required = isVisible && (projectType === 'konut' || projectType === 'ticari');
+          }
+          if (control.name === 'item_type') {
+            control.required = isVisible && (projectType === 'mobilya' || projectType === 'obje');
+          }
+        });
+      });
+
+      dynamicLabels.forEach((label) => {
+        const text = label.dataset[`label${projectType.charAt(0).toUpperCase()}${projectType.slice(1)}`];
+        if (text) label.textContent = text;
+      });
+    };
+
+    projectInputs.forEach((input) => input.addEventListener('change', syncProjectFields));
+    syncProjectFields();
+  }
 })();

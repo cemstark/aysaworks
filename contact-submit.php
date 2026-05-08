@@ -29,6 +29,7 @@ if (trim((string)($_POST['website'] ?? '')) !== '') {
 }
 
 $fields = [
+    'project_type',
     'first_name',
     'last_name',
     'phone',
@@ -37,6 +38,9 @@ $fields = [
     'square_footage',
     'bedrooms',
     'bathrooms',
+    'item_type',
+    'dimensions',
+    'material_preference',
     'start_date',
     'completion_date',
     'construction_budget',
@@ -52,8 +56,33 @@ foreach ($fields as $field) {
     $data[$field] = function_exists('mb_substr') ? mb_substr($value, 0, $limit) : substr($value, 0, $limit);
 }
 
+$projectTypes = [
+    'konut' => 'Konut',
+    'ticari' => 'Ticari mekan',
+    'mobilya' => 'Mobilya',
+    'obje' => 'Obje',
+];
+if (!isset($projectTypes[$data['project_type']])) {
+    $data['project_type'] = 'konut';
+}
+
 $errors = [];
-foreach (['first_name' => 'Ad', 'last_name' => 'Soyad', 'email' => 'E-posta', 'square_footage' => 'Alan', 'scope' => 'İş kapsamı'] as $field => $label) {
+$requiredFields = [
+    'first_name' => 'Ad',
+    'last_name' => 'Soyad',
+    'email' => 'E-posta',
+    'scope' => in_array($data['project_type'], ['mobilya', 'obje'], true) ? 'Tasarım talebi' : 'İş kapsamı',
+];
+
+if (in_array($data['project_type'], ['konut', 'ticari'], true)) {
+    $requiredFields['square_footage'] = 'Alan';
+}
+
+if (in_array($data['project_type'], ['mobilya', 'obje'], true)) {
+    $requiredFields['item_type'] = 'Ürün tipi';
+}
+
+foreach ($requiredFields as $field => $label) {
     if ($data[$field] === '') {
         $errors[] = $label . ' alanı zorunludur.';
     }
