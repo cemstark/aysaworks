@@ -2,145 +2,109 @@
 declare(strict_types=1);
 
 $projects = [
-    'karakoy-rezidansi' => [
-        'title'    => 'Karaköy Rezidansı',
+    'mutfak' => [
+        'title'    => 'Mutfak',
         'category' => 'konut',
-        'sub'      => 'Apartman',
+        'sub'      => 'Mutfak',
         'location' => 'İstanbul',
         'year'     => 2026,
         'cover'    => 'images/mutfak.webp',
-        'intro'    => 'Boğaz manzaralı tarihi bir yapının yenilenmesinde, dokunun ve ışığın başrol oynadığı bir konut iç mimarisi. Tavanın doğal yüksekliğine duyulan saygıyla, malzeme paleti sade tutuldu: tonlu sıva, doğal taş ve özenle seçilmiş ahşap birlikte sessiz bir bütün oluşturuyor.',
+        'intro'    => 'Mutfak projesi; sade yüzeyler, doğal doku ve işlevsel depolama çözümleriyle günlük kullanımı güçlü bir estetikle birleştiren iç mekân tasarımıdır.',
         'gallery'  => [
-            ['kind' => 'full', 'src' => 'images/mutfak.webp',     'alt' => 'Mutfak ana görseli'],
+            ['kind' => 'full', 'src' => 'images/mutfak.webp', 'alt' => 'Mutfak ana görseli'],
             ['kind' => 'pair', 'images' => [
                 ['src' => 'images/mutfak1.webp', 'alt' => 'Mutfak ada detayı'],
-                ['src' => 'images/mutfak2.webp', 'alt' => 'Mutfak ahşap dolap detayı'],
-            ]],
-            ['kind' => 'full', 'src' => 'images/yatakodasi.webp', 'alt' => 'Yatak odası'],
-            ['kind' => 'pair', 'images' => [
-                ['src' => 'images/banyo.webp',  'alt' => 'Banyo'],
-                ['src' => 'images/banyo1.webp', 'alt' => 'Banyo seramik detay'],
-            ]],
-            ['kind' => 'full', 'src' => 'images/merdiven.webp',    'alt' => 'Merdiven boşluğu'],
-            ['kind' => 'pair', 'images' => [
-                ['src' => 'images/yatakodasi.webp',  'alt' => 'Ana yatak odası'],
-                ['src' => 'images/yatakodasi3.webp', 'alt' => 'Yatak odası tekstil detayı'],
+                ['src' => 'images/mutfak2.webp', 'alt' => 'Mutfak dolap detayı'],
             ]],
         ],
     ],
 
-    'yildiz-park-apartmani' => [
-        'title'    => 'Yıldız Park Apartmanı',
+    'banyo' => [
+        'title'    => 'Banyo',
         'category' => 'konut',
-        'sub'      => 'Apartman',
+        'sub'      => 'Banyo',
         'location' => 'İstanbul',
-        'year'     => 2025,
+        'year'     => 2026,
         'cover'    => 'images/banyo.webp',
-        'intro'    => 'Park manzarasına bakan bir apartman dairesinde; günışığını, doğal taşı ve özel üretim mobilyaları sade bir paletle bir araya getiren konut iç mimarisi.',
+        'intro'    => 'Banyo projesi; yalın malzeme dili, dengeli ışık kullanımı ve detay odaklı yüzey çözümleriyle sakin ve zamansız bir mekân algısı kurar.',
         'gallery'  => [
-            ['kind' => 'full', 'src' => 'images/banyo.webp',  'alt' => 'Ana banyo'],
             ['kind' => 'pair', 'images' => [
-                ['src' => 'images/banyo1.webp',  'alt' => 'Banyo detay'],
-                ['src' => 'images/yatakodasi1.webp', 'alt' => 'Yatak odası'],
+                ['src' => 'images/banyo.webp', 'alt' => 'Banyo ana görseli'],
+                ['src' => 'images/banyo1.webp', 'alt' => 'Banyo detay görseli'],
             ]],
-            ['kind' => 'full', 'src' => 'images/oda.webp',    'alt' => 'Yaşama alanı'],
         ],
     ],
 
-    'bebek-sahil-evi' => [
-        'title'    => 'Bebek Sahil Evi',
+    'yatak-odasi' => [
+        'title'    => 'Yatak Odası',
         'category' => 'konut',
-        'sub'      => 'Müstakil',
+        'sub'      => 'Yatak Odası',
         'location' => 'İstanbul',
         'year'     => 2025,
-        'cover'    => 'images/yatakodasi2.webp',
-        'intro'    => 'Boğaz kıyısında bir aile evinde, deniz ışığını içeri taşıyan, açık plan ile mahremiyeti dengeleyen sıcak bir iç mimari yaklaşımı.',
+        'cover'    => 'images/yatakodasi.webp',
+        'intro'    => 'Yatak odası projesi; tekstil, ışık ve mobilya oranlarını dengeli bir kompozisyonda buluşturarak dinlenme alanına dingin ve kişisel bir karakter kazandırır.',
         'gallery'  => [
-            ['kind' => 'full', 'src' => 'images/yatakodasi2.webp', 'alt' => 'Ana yatak odası'],
+            ['kind' => 'full', 'src' => 'images/yatakodasi.webp', 'alt' => 'Yatak odası ana görseli'],
             ['kind' => 'pair', 'images' => [
-                ['src' => 'images/yatakodasi.webp',  'alt' => 'Yatak odası detayı'],
-                ['src' => 'images/yatakodasi3.webp', 'alt' => 'Yastık ve tekstil'],
+                ['src' => 'images/yatakodasi1.webp', 'alt' => 'Yatak odası görünümü'],
+                ['src' => 'images/yatakodasi2.webp', 'alt' => 'Yatak odası ikinci görünüm'],
+            ]],
+            ['kind' => 'full', 'src' => 'images/yatakodasi3.webp', 'alt' => 'Yatak odası detay görseli'],
+        ],
+    ],
+
+    'oda' => [
+        'title'    => 'Yaşam Alanı',
+        'category' => 'konut',
+        'sub'      => 'Yaşam Alanı',
+        'location' => 'İstanbul',
+        'year'     => 2025,
+        'cover'    => 'images/oda.webp',
+        'intro'    => 'Yaşam alanı projesi; açık hacim, sade mobilya dili ve güçlü mekân algısını bir araya getirerek kullanıcının ritmine uyum sağlayan bir iç mekân kurgusu sunar.',
+        'gallery'  => [
+            ['kind' => 'pair', 'images' => [
+                ['src' => 'images/oda.webp', 'alt' => 'Yaşam alanı ana görseli'],
+                ['src' => 'images/oda.png', 'alt' => 'Yaşam alanı ikinci görseli'],
             ]],
         ],
     ],
 
-    'tarabya-konagi' => [
-        'title'    => 'Tarabya Konağı',
+    'merdiven' => [
+        'title'    => 'Merdiven',
         'category' => 'konut',
-        'sub'      => 'Müstakil',
+        'sub'      => 'Geçiş Alanı',
         'location' => 'İstanbul',
         'year'     => 2024,
-        'cover'    => 'images/yatakodasi.webp',
-        'intro'    => 'Yüzyıllık bir konağın iç mekânının; orijinal mimari izlere saygılı, çağdaş bir konfor ile yorumlandığı kapsamlı bir restorasyon-tasarım projesi.',
-        'gallery'  => [
-            ['kind' => 'full', 'src' => 'images/yatakodasi.webp', 'alt' => 'Yatak odası'],
-            ['kind' => 'full', 'src' => 'images/merdiven.webp',    'alt' => 'Tarihi merdiven'],
-        ],
-    ],
-
-    'cihangir-studyo' => [
-        'title'    => 'Cihangir Stüdyo',
-        'category' => 'konut',
-        'sub'      => 'Stüdyo',
-        'location' => 'İstanbul',
-        'year'     => 2024,
-        'cover'    => 'images/yatakodasi1.webp',
-        'intro'    => 'Küçük bir stüdyo dairede; çoklu işlevi tek bir hacme yedirilmiş, ahşap özel üretimle kurulmuş minimal bir yaşam çözümü.',
-        'gallery'  => [
-            ['kind' => 'full', 'src' => 'images/yatakodasi1.webp', 'alt' => 'Stüdyo daire'],
-        ],
-    ],
-
-    'etiler-tripleks' => [
-        'title'    => 'Etiler Tripleks',
-        'category' => 'konut',
-        'sub'      => 'Müstakil',
-        'location' => 'İstanbul',
-        'year'     => 2023,
         'cover'    => 'images/merdiven.webp',
-        'intro'    => 'Üç katlı bir aile evinde; merkez merdiven boşluğu üzerinden örgütlenen, doğal ışığı tüm katlara taşıyan modern bir konut yorumu.',
+        'intro'    => 'Merdiven projesi; geçiş alanını yalnızca dolaşım elemanı olarak değil, ışık, oran ve malzeme ilişkisiyle mekânın güçlü bir parçası olarak ele alır.',
         'gallery'  => [
-            ['kind' => 'full', 'src' => 'images/merdiven.webp', 'alt' => 'Merdiven boşluğu'],
-            ['kind' => 'full', 'src' => 'images/oda.webp',     'alt' => 'Yaşama alanı'],
+            ['kind' => 'full', 'src' => 'images/merdiven.webp', 'alt' => 'Merdiven görseli'],
         ],
     ],
 
-    'cesme-butik-otel' => [
-        'title'    => 'Çeşme Butik Otel',
+    'otel' => [
+        'title'    => 'Otel',
         'category' => 'ticari',
         'sub'      => 'Otel',
         'location' => 'İzmir',
         'year'     => 2024,
         'cover'    => 'images/otel.webp',
-        'intro'    => 'Ege kıyısında küçük ölçekli bir butik otelde; lobiyi, odaları ve dış mekânı tek bir malzeme dili ile birleştiren bir ticari iç mimari projesi.',
+        'intro'    => 'Otel projesi; konaklama deneyimini sıcak, sade ve akılda kalıcı bir mekân diliyle destekleyen ticari iç mimari ve görselleştirme çalışmasıdır.',
         'gallery'  => [
-            ['kind' => 'full', 'src' => 'images/otel.webp', 'alt' => 'Otel lobi'],
+            ['kind' => 'full', 'src' => 'images/otel.webp', 'alt' => 'Otel iç mekân görseli'],
         ],
     ],
 
-    'galata-konsept-magaza' => [
-        'title'    => 'Galata Konsept Mağaza',
-        'category' => 'ticari',
-        'sub'      => 'Perakende',
-        'location' => 'İstanbul',
-        'year'     => 2025,
-        'cover'    => 'images/oda.webp',
-        'intro'    => 'Tarihi bir binanın zemin katında; ürünü öne çıkaran, sergileme ile mimarinin iç içe geçtiği bir konsept mağaza tasarımı.',
-        'gallery'  => [
-            ['kind' => 'full', 'src' => 'images/oda.webp', 'alt' => 'Mağaza içi'],
-        ],
-    ],
-
-    'karakoy-cafe' => [
-        'title'    => 'Karaköy Cafe',
+    'cafe' => [
+        'title'    => 'Cafe',
         'category' => 'ticari',
         'sub'      => 'Cafe',
         'location' => 'İstanbul',
         'year'     => 2025,
         'cover'    => 'images/image00009.webp',
-        'intro'    => 'Küçük bir köşe cafe; sıcak doku, doğal ışık ve özel üretim mobilyalarla; günün her saatinde misafiri ağırlayan davetkar bir atmosfer.',
+        'intro'    => 'Cafe projesi; misafir akışını, oturma düzenini ve atmosfer etkisini birlikte değerlendirerek davetkâr ve işlevsel bir ticari mekân kurgusu oluşturur.',
         'gallery'  => [
-            ['kind' => 'full', 'src' => 'images/image00009.webp', 'alt' => 'Cafe iç mekân'],
+            ['kind' => 'full', 'src' => 'images/image00009.webp', 'alt' => 'Cafe iç mekân görseli'],
         ],
     ],
 ];
