@@ -5,6 +5,16 @@
   const toggle = document.querySelector('.menu-toggle');
   const body = document.body;
   const MOBILE_BP = 900;
+  const subItems = nav ? Array.from(nav.querySelectorAll('.has-sub')) : [];
+
+  const closeSubmenus = (except) => {
+    subItems.forEach((li) => {
+      if (li === except) return;
+      li.classList.remove('open');
+      const trigger = li.querySelector(':scope > a');
+      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    });
+  };
 
   // Scroll'da header alt çizgi
   if (header) {
@@ -24,7 +34,7 @@
       body.classList.toggle('is-menu-open', open);
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       if (!open) {
-        nav.querySelectorAll('.has-sub.open').forEach((li) => li.classList.remove('open'));
+        closeSubmenus();
       }
     };
 
@@ -65,14 +75,26 @@
   }
 
   // Mobile'da submenü tıklayınca aç-kapa
-  document.querySelectorAll('.nav .has-sub > a').forEach((a) => {
+  subItems.forEach((li) => {
+    const a = li.querySelector(':scope > a');
+    if (!a) return;
+
+    a.setAttribute('aria-expanded', 'false');
     a.addEventListener('click', (e) => {
       if (window.innerWidth <= MOBILE_BP) {
         e.preventDefault();
         e.stopPropagation();
-        a.parentElement.classList.toggle('open');
+        const open = !li.classList.contains('open');
+        closeSubmenus(li);
+        li.classList.toggle('open', open);
+        a.setAttribute('aria-expanded', open ? 'true' : 'false');
       }
     });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!nav || window.innerWidth > MOBILE_BP) return;
+    if (!nav.contains(e.target)) closeSubmenus();
   });
 
   // Aktif menü öğesi
