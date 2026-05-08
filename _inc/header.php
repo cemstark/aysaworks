@@ -13,9 +13,18 @@ $pageTitle = $pageTitle ?? ($site['name'] . ' — ' . $site['tagline']);
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f5f1e5" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="description" content="<?= e($site['name']) ?> — <?= e($site['tagline']) ?>. <?= e($site['city']) ?> merkezli konut, ticari mekan, mobilya ve obje tasarımı." />
+  <meta property="og:title" content="<?= e($pageTitle) ?>" />
+  <meta property="og:description" content="<?= e($site['name']) ?> — <?= e($site['tagline']) ?>" />
+  <meta property="og:image" content="<?= e(url('images/oda.webp')) ?>" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="tr_TR" />
   <title><?= e($pageTitle) ?></title>
   <link rel="icon" type="image/webp" href="<?= e(url('images/logo.webp')) ?>" />
+  <link rel="apple-touch-icon" href="<?= e(url('images/logo.webp')) ?>" />
   <link rel="stylesheet" href="<?= e(url('assets/css/main.css')) ?>" />
 </head>
 <body>

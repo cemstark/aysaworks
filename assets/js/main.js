@@ -3,6 +3,8 @@
   const header = document.querySelector('.site-header');
   const nav = document.querySelector('.nav');
   const toggle = document.querySelector('.menu-toggle');
+  const body = document.body;
+  const MOBILE_BP = 900;
 
   // Scroll'da header alt çizgi
   if (header) {
@@ -13,14 +15,61 @@
 
   // Mobile menü toggle
   if (toggle && nav) {
-    toggle.addEventListener('click', () => nav.classList.toggle('is-open'));
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-controls', 'primary-nav');
+    nav.id = nav.id || 'primary-nav';
+
+    const setMenu = (open) => {
+      nav.classList.toggle('is-open', open);
+      body.classList.toggle('is-menu-open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (!open) {
+        nav.querySelectorAll('.has-sub.open').forEach((li) => li.classList.remove('open'));
+      }
+    };
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setMenu(!nav.classList.contains('is-open'));
+    });
+
+    // Menü içindeki gerçek linkleri tıklayınca kapat
+    nav.querySelectorAll('a').forEach((a) => {
+      a.addEventListener('click', () => {
+        const href = a.getAttribute('href');
+        if (href && href !== '#' && !a.parentElement.classList.contains('has-sub')) {
+          if (window.innerWidth <= MOBILE_BP) setMenu(false);
+        }
+      });
+    });
+
+    // Dışa tıklama
+    document.addEventListener('click', (e) => {
+      if (!nav.classList.contains('is-open')) return;
+      if (!nav.contains(e.target) && !toggle.contains(e.target)) setMenu(false);
+    });
+
+    // ESC kapatır
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && nav.classList.contains('is-open')) setMenu(false);
+    });
+
+    // Mobil boyuttan çıkıldığında menüyü kapat
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (window.innerWidth > MOBILE_BP && nav.classList.contains('is-open')) setMenu(false);
+      }, 120);
+    });
   }
 
   // Mobile'da submenü tıklayınca aç-kapa
   document.querySelectorAll('.nav .has-sub > a').forEach((a) => {
     a.addEventListener('click', (e) => {
-      if (window.innerWidth <= 900) {
+      if (window.innerWidth <= MOBILE_BP) {
         e.preventDefault();
+        e.stopPropagation();
         a.parentElement.classList.toggle('open');
       }
     });
