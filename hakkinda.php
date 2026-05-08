@@ -7,7 +7,7 @@ require __DIR__ . '/_inc/header.php';
 
 <section class="about-section">
   <div class="about-grid">
-    <img src="<?= e(url('images/aysa-portrait.webp')) ?>" alt="Aysa Yağız" fetchpriority="high" decoding="async" />
+    <img src="<?= e(url('images/aysa-portrait.webp')) ?>" alt="Aysa Yağız" width="1600" height="533" fetchpriority="high" decoding="async" />
     <div class="about-text">
       <p class="eyebrow">Stüdyo</p>
       <h1><?= e($site['name']) ?> hakkında</h1>

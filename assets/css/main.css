@@ -493,10 +493,12 @@ main { padding-top: var(--header-h); }
   align-items: start;
 }
 .about-grid img {
-  width: 100%;
-  height: clamp(220px, 34vw, 420px);
-  object-fit: cover;
+  width: min(calc(100% - (var(--gutter) * 2)), var(--w-max));
+  height: auto;
+  aspect-ratio: 1600 / 533;
+  object-fit: contain;
   object-position: center;
+  margin: 0 auto;
 }
 .about-text {
   max-width: 720px;
