@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 $site = [
     'name'      => 'Aysa Works',
+    'domain'    => 'aysaworks.com',
     'tagline'   => 'İç Mimarlık & Tasarım Stüdyosu',
     'city'      => 'İstanbul',
     'email'     => 'cemy695@gmail.com',

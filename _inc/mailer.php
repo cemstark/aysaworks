@@ -28,6 +28,52 @@ function inquiry_project_type_label(string $projectType): string
     return $labels[$projectType] ?? $projectType;
 }
 
+function inquiry_header_value(string $value): string
+{
+    return trim(str_replace(["\r", "\n"], ' ', $value));
+}
+
+function inquiry_site_domain(array $site): string
+{
+    $domain = strtolower(trim((string)($site['domain'] ?? '')));
+    if ($domain === '') {
+        $host = strtolower((string)($_SERVER['HTTP_HOST'] ?? 'aysaworks.com'));
+        $domain = preg_replace('/:\d+$/', '', $host) ?: 'aysaworks.com';
+    }
+
+    return preg_replace('/^www\./', '', $domain) ?: 'aysaworks.com';
+}
+
+function inquiry_default_from(array $site): string
+{
+    $username = trim((string)getenv('MAIL_USERNAME'));
+    if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
+        return $username;
+    }
+
+    return 'noreply@' . inquiry_site_domain($site);
+}
+
+function inquiry_recipient(array $site): string
+{
+    $recipient = trim((string)getenv('MAIL_TO'));
+
+    return filter_var($recipient, FILTER_VALIDATE_EMAIL) ? $recipient : (string)$site['email'];
+}
+
+function inquiry_mail_transport(): string
+{
+    $host = trim((string)getenv('MAIL_HOST'));
+    if ($host !== '') {
+        return 'smtp';
+    }
+
+    $username = trim((string)getenv('MAIL_USERNAME'));
+    $password = trim((string)getenv('MAIL_PASSWORD'));
+
+    return $username !== '' && $password !== '' ? 'smtp' : 'php-mail';
+}
+
 function phpmailer_available(): bool
 {
     $base = __DIR__ . '/../vendor/phpmailer/phpmailer/src/';
@@ -44,27 +90,31 @@ function phpmailer_available(): bool
 
 function inquiry_native_mail(array $site, array $data): void
 {
-    $clientName = trim($data['first_name'] . ' ' . $data['last_name']);
+    $clientName = inquiry_header_value(trim($data['first_name'] . ' ' . $data['last_name']));
     $lines = inquiry_rows($data);
     $body = "Yeni proje talebi\n\n" . implode("\n", $lines);
-    $from = trim((string)(getenv('MAIL_FROM') ?: $site['email']));
+    $from = inquiry_header_value(trim((string)(getenv('MAIL_FROM') ?: inquiry_default_from($site))));
+    $fromName = inquiry_header_value(trim((string)(getenv('MAIL_FROM_NAME') ?: $site['name'])));
+    $replyTo = filter_var((string)$data['email'], FILTER_VALIDATE_EMAIL) ? (string)$data['email'] : $site['email'];
     $headers = [
         'MIME-Version: 1.0',
         'Content-Type: text/plain; charset=UTF-8',
-        'From: ' . $site['name'] . ' <' . $from . '>',
-        'Reply-To: ' . $clientName . ' <' . $data['email'] . '>',
+        'From: ' . $fromName . ' <' . $from . '>',
+        'Reply-To: ' . $clientName . ' <' . $replyTo . '>',
+        'X-Mailer: Aysa Works contact form',
     ];
 
     inquiry_mail_log('native mail attempt', [
-        'to' => $site['email'],
+        'to' => inquiry_recipient($site),
         'from' => $from,
     ]);
 
-    if (!function_exists('mail') || !mail($site['email'], 'Yeni proje talebi - ' . $clientName, $body, implode("\r\n", $headers))) {
+    $params = filter_var($from, FILTER_VALIDATE_EMAIL) ? '-f' . escapeshellarg($from) : '';
+    if (!function_exists('mail') || !mail(inquiry_recipient($site), 'Yeni proje talebi - ' . $clientName, $body, implode("\r\n", $headers), $params)) {
         throw new RuntimeException('PHP mail() gönderimi başarısız oldu. MAIL_HOST ile SMTP ayarı gerekli olabilir.');
     }
 
-    inquiry_mail_log('native mail accepted', ['to' => $site['email']]);
+    inquiry_mail_log('native mail accepted', ['to' => inquiry_recipient($site)]);
 }
 
 function inquiry_rows(array $data): array
@@ -107,19 +157,23 @@ function site_mailer(array $site)
     $mail->CharSet = 'UTF-8';
     $mail->Encoding = 'base64';
     $mail->Timeout = (int)(getenv('MAIL_TIMEOUT') ?: 15);
+    $mail->Hostname = inquiry_site_domain($site);
+    $mail->XMailer = 'Aysa Works contact form';
 
     $host = trim((string)getenv('MAIL_HOST'));
-    if ($host !== '') {
+    $username = trim((string)getenv('MAIL_USERNAME'));
+    $password = (string)getenv('MAIL_PASSWORD');
+    $useSmtp = $host !== '' || ($username !== '' && $password !== '');
+
+    if ($useSmtp) {
         $mail->isSMTP();
-        $mail->Host = $host;
-        $mail->Port = (int)(getenv('MAIL_PORT') ?: 587);
-        $username = (string)getenv('MAIL_USERNAME');
-        $password = (string)getenv('MAIL_PASSWORD');
+        $mail->Host = $host !== '' ? $host : 'smtp.hostinger.com';
+        $mail->Port = (int)(getenv('MAIL_PORT') ?: 465);
         $mail->SMTPAuth = $username !== '' || $password !== '';
         $mail->Username = $username;
         $mail->Password = $password;
 
-        $encryption = strtolower((string)(getenv('MAIL_ENCRYPTION') ?: 'tls'));
+        $encryption = strtolower((string)(getenv('MAIL_ENCRYPTION') ?: 'ssl'));
         if ($encryption === 'ssl' || $encryption === 'smtps') {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         } elseif ($encryption === 'tls' || $encryption === 'starttls') {
@@ -136,8 +190,8 @@ function site_mailer(array $site)
         $mail->isMail();
     }
 
-    $from = trim((string)(getenv('MAIL_FROM') ?: $site['email']));
-    $fromName = trim((string)(getenv('MAIL_FROM_NAME') ?: $site['name']));
+    $from = inquiry_header_value(trim((string)(getenv('MAIL_FROM') ?: inquiry_default_from($site))));
+    $fromName = inquiry_header_value(trim((string)(getenv('MAIL_FROM_NAME') ?: $site['name'])));
     $mail->setFrom($from, $fromName);
     $mail->Sender = $from;
 
@@ -152,18 +206,20 @@ function inquiry_send(array $site, array $data): void
     }
 
     $mail = site_mailer($site);
-    $recipient = $site['email'];
-    $clientName = trim($data['first_name'] . ' ' . $data['last_name']);
+    $recipient = inquiry_recipient($site);
+    $clientName = inquiry_header_value(trim($data['first_name'] . ' ' . $data['last_name']));
 
     inquiry_mail_log('send attempt', [
-        'transport' => trim((string)getenv('MAIL_HOST')) !== '' ? 'smtp' : 'php-mail',
+        'transport' => inquiry_mail_transport(),
         'to' => $recipient,
         'from' => $mail->From,
         'subject' => 'Yeni proje talebi - ' . $clientName,
     ]);
 
     $mail->addAddress($recipient, $site['name']);
-    $mail->addReplyTo($data['email'], $clientName);
+    if (filter_var((string)$data['email'], FILTER_VALIDATE_EMAIL)) {
+        $mail->addReplyTo((string)$data['email'], $clientName);
+    }
     $mail->Subject = 'Yeni proje talebi - ' . $clientName;
     $mail->isHTML(true);
 
@@ -187,7 +243,7 @@ function inquiry_send(array $site, array $data): void
     $mail->send();
 
     inquiry_mail_log('send accepted', [
-        'transport' => trim((string)getenv('MAIL_HOST')) !== '' ? 'smtp' : 'php-mail',
+        'transport' => inquiry_mail_transport(),
         'to' => $recipient,
     ]);
 }
