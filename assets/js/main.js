@@ -142,6 +142,7 @@
   const inquiryForm = document.querySelector('.inquiry-form');
   if (inquiryForm) {
     const projectInputs = inquiryForm.querySelectorAll('input[name="project_type"]');
+    const projectSelect = inquiryForm.querySelector('.project-type-select select');
     const projectFields = inquiryForm.querySelectorAll('[data-projects]');
     const dynamicLabels = inquiryForm.querySelectorAll('[data-label-konut]');
 
@@ -152,6 +153,10 @@
 
     const syncProjectFields = () => {
       const projectType = selectedProjectType();
+
+      if (projectSelect && projectSelect.value !== projectType) {
+        projectSelect.value = projectType;
+      }
 
       projectFields.forEach((field) => {
         const allowed = (field.dataset.projects || '').split(/\s+/).filter(Boolean);
@@ -175,6 +180,15 @@
     };
 
     projectInputs.forEach((input) => input.addEventListener('change', syncProjectFields));
+    if (projectSelect) {
+      projectSelect.addEventListener('change', () => {
+        const input = inquiryForm.querySelector(`input[name="project_type"][value="${projectSelect.value}"]`);
+        if (input) {
+          input.checked = true;
+          syncProjectFields();
+        }
+      });
+    }
     syncProjectFields();
   }
 })();

@@ -684,6 +684,39 @@ main { padding-top: var(--header-h); }
   text-transform: uppercase;
   color: var(--ink);
 }
+.project-type-select {
+  display: none;
+  position: relative;
+}
+.project-type-select::after {
+  content: '';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-right: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  pointer-events: none;
+  transform: translateY(-65%) rotate(45deg);
+}
+.project-type-select select {
+  width: 100%;
+  min-height: 48px;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  padding: 13px 42px 13px 14px;
+  text-transform: uppercase;
+}
 .project-type-options {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1027,20 +1060,43 @@ main { padding-top: var(--header-h); }
   .contact-list { font-size: 14px; line-height: 1.95; }
   .contact-list a { display: inline-block; padding: 4px 0; min-height: 32px; }
 
-  .form-grid { grid-template-columns: 1fr; gap: 22px; }
-  .project-type-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .project-type-option span { min-height: 48px; padding: 12px 8px; font-size: 12px; }
+  .project-type-fieldset { margin-bottom: 24px; }
+  .project-type-fieldset legend {
+    margin-bottom: 9px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+  }
+  .project-type-select { display: block; }
+  .project-type-select select {
+    min-height: 46px;
+    font-size: 16px;
+    letter-spacing: 0.8px;
+    padding: 11px 42px 11px 13px;
+  }
+  .project-type-select option {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  .project-type-options { display: none; }
+  .form-grid { grid-template-columns: 1fr; gap: 18px; }
   /* iOS otomatik zoom önleme — input font-size en az 16px */
   .inquiry-form input:not([type="radio"]),
   .inquiry-form textarea {
     font-size: 16px;
-    padding: 12px 0 14px;
+    line-height: 1.45;
+    padding: 9px 0 11px;
   }
-  .inquiry-form label span { font-size: 11px; }
+  .inquiry-form textarea { min-height: 112px; }
+  .inquiry-form label span {
+    margin-bottom: 6px;
+    font-size: 10px;
+    letter-spacing: 1.6px;
+  }
   .form-submit {
     width: 100%;
-    padding: 18px 24px;
-    min-height: 52px;
+    margin-top: 28px;
+    padding: 16px 22px;
+    min-height: 50px;
     font-size: 12px;
   }
 
@@ -1050,7 +1106,6 @@ main { padding-top: var(--header-h); }
 
 /* ==================== SMALL MOBILE ==================== */
 @media (max-width: 480px) {
-  .project-type-options { grid-template-columns: 1fr; }
   .project-index__grid { grid-template-columns: repeat(2, 1fr); }
   .brand__name { display: none; }
   .brand img { height: 28px; }

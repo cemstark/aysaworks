@@ -75,6 +75,13 @@ require __DIR__ . '/_inc/header.php';
 
       <fieldset class="project-type-fieldset">
         <legend>Proje türü</legend>
+        <div class="project-type-select">
+          <select aria-label="Proje türü seçimi">
+            <?php foreach ($projectTypes as $value => $label): ?>
+              <option value="<?= e($value) ?>"<?= $selectedProjectType === $value ? ' selected' : '' ?>><?= e($label) ?></option>
+            <?php endforeach; ?>
+          </select>
+        </div>
         <div class="project-type-options">
           <?php foreach ($projectTypes as $value => $label): ?>
             <label class="project-type-option">
