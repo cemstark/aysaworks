@@ -3,6 +3,40 @@ declare(strict_types=1);
 
 use PHPMailer\PHPMailer\PHPMailer;
 
+function inquiry_mail_config(): array
+{
+    static $config = null;
+    if ($config !== null) {
+        return $config;
+    }
+
+    $path = __DIR__ . '/mail-config.php';
+    if (!is_file($path)) {
+        $config = [];
+        return $config;
+    }
+
+    $loaded = require $path;
+    $config = is_array($loaded) ? $loaded : [];
+
+    return $config;
+}
+
+function inquiry_mail_setting(string $key, string $default = ''): string
+{
+    $value = getenv($key);
+    if ($value !== false && trim((string)$value) !== '') {
+        return trim((string)$value);
+    }
+
+    $config = inquiry_mail_config();
+    if (array_key_exists($key, $config) && trim((string)$config[$key]) !== '') {
+        return trim((string)$config[$key]);
+    }
+
+    return $default;
+}
+
 function inquiry_mail_log(string $message, array $context = []): void
 {
     $safeContext = [];
@@ -46,7 +80,7 @@ function inquiry_site_domain(array $site): string
 
 function inquiry_default_from(array $site): string
 {
-    $username = trim((string)getenv('MAIL_USERNAME'));
+    $username = inquiry_mail_setting('MAIL_USERNAME');
     if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
         return $username;
     }
@@ -56,20 +90,20 @@ function inquiry_default_from(array $site): string
 
 function inquiry_recipient(array $site): string
 {
-    $recipient = trim((string)getenv('MAIL_TO'));
+    $recipient = inquiry_mail_setting('MAIL_TO');
 
     return filter_var($recipient, FILTER_VALIDATE_EMAIL) ? $recipient : (string)$site['email'];
 }
 
 function inquiry_mail_transport(): string
 {
-    $host = trim((string)getenv('MAIL_HOST'));
+    $host = inquiry_mail_setting('MAIL_HOST');
     if ($host !== '') {
         return 'smtp';
     }
 
-    $username = trim((string)getenv('MAIL_USERNAME'));
-    $password = trim((string)getenv('MAIL_PASSWORD'));
+    $username = inquiry_mail_setting('MAIL_USERNAME');
+    $password = inquiry_mail_setting('MAIL_PASSWORD');
 
     return $username !== '' && $password !== '' ? 'smtp' : 'php-mail';
 }
@@ -93,8 +127,8 @@ function inquiry_native_mail(array $site, array $data): void
     $clientName = inquiry_header_value(trim($data['first_name'] . ' ' . $data['last_name']));
     $lines = inquiry_rows($data);
     $body = "Yeni proje talebi\n\n" . implode("\n", $lines);
-    $from = inquiry_header_value(trim((string)(getenv('MAIL_FROM') ?: inquiry_default_from($site))));
-    $fromName = inquiry_header_value(trim((string)(getenv('MAIL_FROM_NAME') ?: $site['name'])));
+    $from = inquiry_header_value(inquiry_mail_setting('MAIL_FROM', inquiry_default_from($site)));
+    $fromName = inquiry_header_value(inquiry_mail_setting('MAIL_FROM_NAME', (string)$site['name']));
     $replyTo = filter_var((string)$data['email'], FILTER_VALIDATE_EMAIL) ? (string)$data['email'] : $site['email'];
     $headers = [
         'MIME-Version: 1.0',
@@ -156,31 +190,31 @@ function site_mailer(array $site)
     $mail = new PHPMailer(true);
     $mail->CharSet = 'UTF-8';
     $mail->Encoding = 'base64';
-    $mail->Timeout = (int)(getenv('MAIL_TIMEOUT') ?: 15);
+    $mail->Timeout = (int)inquiry_mail_setting('MAIL_TIMEOUT', '15');
     $mail->Hostname = inquiry_site_domain($site);
     $mail->XMailer = 'Aysa Works contact form';
 
-    $host = trim((string)getenv('MAIL_HOST'));
-    $username = trim((string)getenv('MAIL_USERNAME'));
-    $password = (string)getenv('MAIL_PASSWORD');
+    $host = inquiry_mail_setting('MAIL_HOST');
+    $username = inquiry_mail_setting('MAIL_USERNAME');
+    $password = inquiry_mail_setting('MAIL_PASSWORD');
     $useSmtp = $host !== '' || ($username !== '' && $password !== '');
 
     if ($useSmtp) {
         $mail->isSMTP();
         $mail->Host = $host !== '' ? $host : 'smtp.hostinger.com';
-        $mail->Port = (int)(getenv('MAIL_PORT') ?: 465);
+        $mail->Port = (int)inquiry_mail_setting('MAIL_PORT', '465');
         $mail->SMTPAuth = $username !== '' || $password !== '';
         $mail->Username = $username;
         $mail->Password = $password;
 
-        $encryption = strtolower((string)(getenv('MAIL_ENCRYPTION') ?: 'ssl'));
+        $encryption = strtolower(inquiry_mail_setting('MAIL_ENCRYPTION', 'ssl'));
         if ($encryption === 'ssl' || $encryption === 'smtps') {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         } elseif ($encryption === 'tls' || $encryption === 'starttls') {
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         }
 
-        if (filter_var(getenv('MAIL_DEBUG'), FILTER_VALIDATE_BOOLEAN)) {
+        if (filter_var(inquiry_mail_setting('MAIL_DEBUG'), FILTER_VALIDATE_BOOLEAN)) {
             $mail->SMTPDebug = 2;
             $mail->Debugoutput = static function (string $line, int $level): void {
                 inquiry_mail_log('smtp debug', ['level' => $level, 'line' => $line]);
@@ -190,8 +224,8 @@ function site_mailer(array $site)
         $mail->isMail();
     }
 
-    $from = inquiry_header_value(trim((string)(getenv('MAIL_FROM') ?: inquiry_default_from($site))));
-    $fromName = inquiry_header_value(trim((string)(getenv('MAIL_FROM_NAME') ?: $site['name'])));
+    $from = inquiry_header_value(inquiry_mail_setting('MAIL_FROM', inquiry_default_from($site)));
+    $fromName = inquiry_header_value(inquiry_mail_setting('MAIL_FROM_NAME', (string)$site['name']));
     $mail->setFrom($from, $fromName);
     $mail->Sender = $from;
 
