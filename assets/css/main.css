@@ -53,6 +53,7 @@
   --bg: #f5f1e5;
   --bg-alt: #f6f0de;
   --bg-soft: #e1dbd0;
+  --header-bg: #fbfaf5;
   --ink: #383839;
   --ink-soft: #666666;
   --ink-mute: #9a978d;
@@ -149,7 +150,7 @@ p { max-width: var(--w-text); }
   position: fixed;
   top: 0; left: 0; right: 0;
   height: var(--header-h);
-  background: var(--bg);
+  background: var(--header-bg);
   z-index: 100;
   display: flex;
   align-items: center;
@@ -183,17 +184,12 @@ p { max-width: var(--w-text); }
   flex: 0 0 86px;
   width: 86px;
   height: 40px;
-  background-color: var(--bg);
+  background-color: var(--header-bg);
   background-image: url('../../images/logo.webp');
   background-position: center;
   background-size: 64px auto;
   background-repeat: no-repeat;
   background-blend-mode: multiply;
-  mix-blend-mode: multiply;
-  box-shadow:
-    inset 0 0 0 1px rgba(56, 56, 57, 0.035),
-    inset 0 1px 5px rgba(56, 56, 57, 0.08),
-    inset 0 -1px 4px rgba(255, 255, 255, 0.28);
 }
 .brand img {
   position: absolute;
@@ -577,9 +573,9 @@ main { padding-top: var(--header-h); }
   align-items: start;
 }
 .about-grid img {
-  width: min(calc(100% - (var(--gutter) * 2)), var(--w-max));
+  width: min(calc(100% - (var(--gutter) * 2)), 1600px);
   height: auto;
-  aspect-ratio: 1600 / 430;
+  aspect-ratio: 1600 / 320;
   object-fit: cover;
   object-position: center;
   margin: 0 auto;
