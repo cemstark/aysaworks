@@ -9,5 +9,5 @@ return [
     'MAIL_PASSWORD' => 'MAIL_HESABI_SIFRESI',
     'MAIL_FROM' => 'info@aysaworks.com',
     'MAIL_FROM_NAME' => 'Aysa Works',
-    'MAIL_TO' => 'cemy695@gmail.com',
+    'MAIL_TO' => 'aysayagizz@gmail.com',
 ];
