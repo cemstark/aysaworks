@@ -156,9 +156,13 @@ p { max-width: var(--w-text); }
   align-items: center;
   padding: 0 var(--gutter);
   border-bottom: 1px solid transparent;
-  transition: border-color .3s ease;
+  transform: translateY(0);
+  transition: border-color .3s ease, transform .28s ease;
+  will-change: transform;
 }
 .site-header.scrolled { border-bottom-color: var(--line); }
+.site-header.is-hidden { transform: translateY(-100%); }
+body.is-menu-open .site-header { transform: translateY(0); }
 
 .site-header__inner {
   display: grid;
@@ -575,8 +579,8 @@ main { padding-top: var(--header-h); }
 .about-grid img {
   width: min(calc(100% - (var(--gutter) * 2)), 1600px);
   height: auto;
-  aspect-ratio: 1600 / 320;
-  object-fit: cover;
+  aspect-ratio: 1600 / 533;
+  object-fit: contain;
   object-position: center;
   margin: 0 auto;
 }

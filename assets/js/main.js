@@ -18,7 +18,33 @@
 
   // Scroll'da header alt çizgi
   if (header) {
-    const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 8);
+    let lastScrollY = Math.max(window.scrollY, 0);
+    let ticking = false;
+
+    const syncHeader = () => {
+      const currentScrollY = Math.max(window.scrollY, 0);
+      const delta = currentScrollY - lastScrollY;
+      const isPastHeader = currentScrollY > header.offsetHeight;
+      const isMenuOpen = body.classList.contains('is-menu-open');
+
+      header.classList.toggle('scrolled', currentScrollY > 8);
+
+      if (currentScrollY <= 8 || delta < -4 || isMenuOpen) {
+        header.classList.remove('is-hidden');
+      } else if (delta > 4 && isPastHeader) {
+        header.classList.add('is-hidden');
+      }
+
+      lastScrollY = currentScrollY;
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(syncHeader);
+    };
+
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
   }
