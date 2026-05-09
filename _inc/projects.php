@@ -47,7 +47,7 @@ $projects = [
             ['kind' => 'full', 'src' => 'images/yatakodasi.webp', 'alt' => 'Yatak odası ana görseli'],
             ['kind' => 'pair', 'images' => [
                 ['src' => 'images/yatakodasi1.webp', 'alt' => 'Yatak odası görünümü'],
-                ['src' => 'images/yatakodasi2.webp', 'alt' => 'Yatak odası ikinci görünüm'],
+                ['src' => 'images/yatakodasi-clean.webp', 'alt' => 'Yatak odası ikinci görünüm'],
             ]],
             ['kind' => 'full', 'src' => 'images/yatakodasi3.webp', 'alt' => 'Yatak odası detay görseli'],
         ],

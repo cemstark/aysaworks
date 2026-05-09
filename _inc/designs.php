@@ -35,7 +35,7 @@ $designs = [
         'category' => 'mobilya',
         'sub'      => 'Ahşap',
         'year'     => 2024,
-        'cover'    => 'images/yatakodasi2.webp',
+        'cover'    => 'images/yatakodasi-clean.webp',
     ],
     'mutfak-adasi' => [
         'title'    => 'Mutfak Adası',
