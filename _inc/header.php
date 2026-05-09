@@ -90,7 +90,19 @@ $schemaGraph = array_merge([$organizationSchema, $webPageSchema], $structuredDat
 <header class="site-header">
   <div class="site-header__inner">
     <a href="<?= e(url('index.php')) ?>" class="brand">
-      <img src="<?= e(url('images/logo.webp')) ?>" alt="<?= e($site['name']) ?>" />
+      <picture class="brand-logo-wrap">
+        <source srcset="<?= e(url('assets/logo/aw-logo-header-vector.svg')) ?>" type="image/svg+xml" />
+        <img
+          src="<?= e(url('assets/logo/aw-logo-header-transparent.png')) ?>"
+          srcset="<?= e(url('assets/logo/aw-logo-header-256w.png')) ?> 256w, <?= e(url('assets/logo/aw-logo-header-512w.png')) ?> 512w, <?= e(url('assets/logo/aw-logo-header-1024w.png')) ?> 1024w"
+          sizes="(max-width: 480px) 30px, (max-width: 900px) 34px, 44px"
+          alt="<?= e($site['name']) ?>"
+          class="brand-logo"
+          width="1017"
+          height="841"
+          decoding="async"
+        />
+      </picture>
       <span class="brand__name"><?= e($site['name']) ?></span>
     </a>
     <nav>
