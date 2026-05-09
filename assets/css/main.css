@@ -185,8 +185,8 @@ p { max-width: var(--w-text); }
   height: 40px;
   background-color: var(--bg);
   background-image: url('../../images/logo.webp');
-  background-position: center 62%;
-  background-size: 168px auto;
+  background-position: center;
+  background-size: contain;
   background-repeat: no-repeat;
   background-blend-mode: multiply;
   mix-blend-mode: multiply;
@@ -575,8 +575,8 @@ main { padding-top: var(--header-h); }
 .about-grid img {
   width: min(calc(100% - (var(--gutter) * 2)), var(--w-max));
   height: auto;
-  aspect-ratio: 1600 / 533;
-  object-fit: contain;
+  aspect-ratio: 1600 / 430;
+  object-fit: cover;
   object-position: center;
   margin: 0 auto;
 }
