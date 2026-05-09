@@ -9,6 +9,8 @@ $project = find_project($projects, (string)$slug);
 if (!$project) {
     http_response_code(404);
     $pageTitle = 'Bulunamadı — ' . $site['name'];
+    $pageDescription = 'Aradığınız Aysa Works projesi bulunamadı.';
+    $robotsContent = 'noindex, follow';
     require __DIR__ . '/../_inc/header.php';
     ?>
     <section class="project-hero">
@@ -21,9 +23,28 @@ if (!$project) {
 }
 
 $pageTitle = $project['title'] . ' — ' . $site['name'];
+$pageDescription = $project['intro'];
+$pageCanonical = 'projeler/proje.php?slug=' . urlencode((string)$slug);
+$pageImage = $project['cover'];
+$pageType = 'article';
 $category = $project['category'];
 $categoryHref = $category === 'ticari' ? 'projeler/ticari.php' : 'projeler/konut.php';
 $categoryLabel = $category === 'ticari' ? 'Ticari' : 'Konut';
+$structuredData = [[
+    '@type' => 'CreativeWork',
+    '@id' => absolute_url($pageCanonical) . '#project',
+    'name' => $project['title'],
+    'description' => $project['intro'],
+    'image' => absolute_url($project['cover']),
+    'dateCreated' => (string)$project['year'],
+    'locationCreated' => [
+        '@type' => 'Place',
+        'name' => $project['location'],
+    ],
+    'creator' => [
+        '@id' => absolute_url('#organization'),
+    ],
+]];
 
 require __DIR__ . '/../_inc/header.php';
 ?>

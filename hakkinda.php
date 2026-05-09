@@ -2,6 +2,9 @@
 $root = './';
 require __DIR__ . '/_inc/site.php';
 $pageTitle = 'Hakkında — ' . $site['name'];
+$pageDescription = 'Aysa Works hakkında: İstanbul merkezli iç mimarlık ve tasarım stüdyosunun malzeme, oran, ışık ve zanaat odaklı yaklaşımı.';
+$pageCanonical = 'hakkinda.php';
+$pageImage = 'images/aysa-portrait.webp';
 require __DIR__ . '/_inc/header.php';
 ?>
 

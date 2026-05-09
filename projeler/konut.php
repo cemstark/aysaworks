@@ -4,6 +4,9 @@ require __DIR__ . '/../_inc/site.php';
 require __DIR__ . '/../_inc/projects.php';
 
 $pageTitle = 'Konut Projeleri — ' . $site['name'];
+$pageDescription = 'Aysa Works konut iç mimari projeleri: apartman dairesi, ev ve yaşam alanları için sade, zamansız ve malzeme odaklı tasarım çalışmaları.';
+$pageCanonical = 'projeler/konut.php';
+$pageImage = 'images/mutfak.webp';
 $items = projects_by_category($projects, 'konut');
 
 require __DIR__ . '/../_inc/header.php';

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aysaworks.com/sitemap.xml

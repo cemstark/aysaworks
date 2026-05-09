@@ -4,6 +4,9 @@ require __DIR__ . '/../_inc/site.php';
 require __DIR__ . '/../_inc/projects.php';
 
 $pageTitle = 'Ticari Projeler — ' . $site['name'];
+$pageDescription = 'Aysa Works ticari iç mimari projeleri: otel, cafe, mağaza ve çalışma alanları için marka diliyle uyumlu mekan tasarımı.';
+$pageCanonical = 'projeler/ticari.php';
+$pageImage = 'images/otel.webp';
 $items = projects_by_category($projects, 'ticari');
 
 require __DIR__ . '/../_inc/header.php';

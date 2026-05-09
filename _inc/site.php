@@ -4,7 +4,9 @@ declare(strict_types=1);
 $site = [
     'name'      => 'Aysa Works',
     'domain'    => 'aysaworks.com',
+    'base_url'  => 'https://aysaworks.com',
     'tagline'   => 'İç Mimarlık & Tasarım Stüdyosu',
+    'description' => 'İstanbul merkezli iç mimarlık ve tasarım stüdyosu. Konut, ticari mekan, özel mobilya ve obje tasarımı için zamansız, malzeme odaklı çözümler.',
     'city'      => 'İstanbul',
     'email'     => 'cemy695@gmail.com',
     'instagram' => 'https://www.instagram.com/aysaworks',
@@ -33,6 +35,14 @@ function url(string $path, string $root = ''): string
 {
     $root = $root ?: ($GLOBALS['root'] ?? './');
     return $root . ltrim($path, '/');
+}
+
+function absolute_url(string $path = ''): string
+{
+    $base = rtrim((string)$GLOBALS['site']['base_url'], '/');
+    $path = ltrim($path, '/');
+
+    return $path === '' ? $base . '/' : $base . '/' . $path;
 }
 
 function asset_url(string $path, string $root = ''): string

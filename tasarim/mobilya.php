@@ -4,6 +4,9 @@ require __DIR__ . '/../_inc/site.php';
 require __DIR__ . '/../_inc/designs.php';
 
 $pageTitle = 'Mobilya — ' . $site['name'];
+$pageDescription = 'Aysa Works mobilya tasarımları: mekana özel, doğal malzeme ve oran odaklı karyola, sehpa, modül ve özel üretim mobilyalar.';
+$pageCanonical = 'tasarim/mobilya.php';
+$pageImage = 'images/yatakodasi3.webp';
 $items = designs_by_category($designs, 'mobilya');
 
 require __DIR__ . '/../_inc/header.php';

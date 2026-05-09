@@ -8,6 +8,55 @@
  */
 $root = $root ?? './';
 $pageTitle = $pageTitle ?? ($site['name'] . ' — ' . $site['tagline']);
+$pageDescription = $pageDescription ?? $site['description'];
+$pageImage = $pageImage ?? 'images/oda.webp';
+$pageCanonical = $pageCanonical ?? ltrim(parse_url($_SERVER['REQUEST_URI'] ?? 'index.php', PHP_URL_PATH) ?: 'index.php', '/');
+$pageType = $pageType ?? 'website';
+$robotsContent = $robotsContent ?? 'index, follow';
+$structuredData = $structuredData ?? [];
+
+$organizationSchema = [
+    '@context' => 'https://schema.org',
+    '@type' => 'ProfessionalService',
+    '@id' => absolute_url('#organization'),
+    'name' => $site['name'],
+    'url' => absolute_url(),
+    'description' => $site['description'],
+    'image' => absolute_url($pageImage),
+    'email' => $site['email'],
+    'areaServed' => [
+        '@type' => 'City',
+        'name' => $site['city'],
+    ],
+    'address' => [
+        '@type' => 'PostalAddress',
+        'addressLocality' => $site['city'],
+        'addressCountry' => 'TR',
+    ],
+    'sameAs' => [
+        $site['instagram'],
+    ],
+];
+
+$webPageSchema = [
+    '@context' => 'https://schema.org',
+    '@type' => 'WebPage',
+    '@id' => absolute_url($pageCanonical) . '#webpage',
+    'url' => absolute_url($pageCanonical),
+    'name' => $pageTitle,
+    'description' => $pageDescription,
+    'isPartOf' => [
+        '@type' => 'WebSite',
+        '@id' => absolute_url('#website'),
+        'name' => $site['name'],
+        'url' => absolute_url(),
+    ],
+    'publisher' => [
+        '@id' => absolute_url('#organization'),
+    ],
+];
+
+$schemaGraph = array_merge([$organizationSchema, $webPageSchema], $structuredData);
 ?>
 <!DOCTYPE html>
 <html lang="tr">
@@ -16,16 +65,25 @@ $pageTitle = $pageTitle ?? ($site['name'] . ' — ' . $site['tagline']);
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#f5f1e5" />
   <meta name="format-detection" content="telephone=no" />
-  <meta name="description" content="<?= e($site['name']) ?> — <?= e($site['tagline']) ?>. <?= e($site['city']) ?> merkezli konut, ticari mekan, mobilya ve obje tasarımı." />
+  <meta name="description" content="<?= e($pageDescription) ?>" />
+  <meta name="robots" content="<?= e($robotsContent) ?>" />
+  <link rel="canonical" href="<?= e(absolute_url($pageCanonical)) ?>" />
   <meta property="og:title" content="<?= e($pageTitle) ?>" />
-  <meta property="og:description" content="<?= e($site['name']) ?> — <?= e($site['tagline']) ?>" />
-  <meta property="og:image" content="<?= e(url('images/oda.webp')) ?>" />
-  <meta property="og:type" content="website" />
+  <meta property="og:description" content="<?= e($pageDescription) ?>" />
+  <meta property="og:image" content="<?= e(absolute_url($pageImage)) ?>" />
+  <meta property="og:url" content="<?= e(absolute_url($pageCanonical)) ?>" />
+  <meta property="og:type" content="<?= e($pageType) ?>" />
+  <meta property="og:site_name" content="<?= e($site['name']) ?>" />
   <meta property="og:locale" content="tr_TR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="<?= e($pageTitle) ?>" />
+  <meta name="twitter:description" content="<?= e($pageDescription) ?>" />
+  <meta name="twitter:image" content="<?= e(absolute_url($pageImage)) ?>" />
   <title><?= e($pageTitle) ?></title>
   <link rel="icon" type="image/webp" href="<?= e(url('images/logo.webp')) ?>" />
   <link rel="apple-touch-icon" href="<?= e(url('images/logo.webp')) ?>" />
   <link rel="stylesheet" href="<?= e(asset_url('assets/css/main.css')) ?>" />
+  <script type="application/ld+json"><?= json_encode(['@context' => 'https://schema.org', '@graph' => $schemaGraph], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
 </head>
 <body>
 

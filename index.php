@@ -4,6 +4,9 @@ require __DIR__ . '/_inc/site.php';
 require __DIR__ . '/_inc/projects.php';
 
 $pageTitle = $site['name'] . ' — ' . $site['tagline'];
+$pageDescription = $site['description'];
+$pageCanonical = 'index.php';
+$pageImage = 'images/oda.webp';
 $featured = array_slice($projects, 0, 4, true);
 
 require __DIR__ . '/_inc/header.php';

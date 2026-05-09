@@ -4,6 +4,9 @@ require __DIR__ . '/../_inc/site.php';
 require __DIR__ . '/../_inc/designs.php';
 
 $pageTitle = 'Obje — ' . $site['name'];
+$pageDescription = 'Aysa Works obje tasarımları: seramik, pirinç, cam, doğal taş ve tekstil parçalarıyla mekana karakter katan tasarım objeleri.';
+$pageCanonical = 'tasarim/obje.php';
+$pageImage = 'images/image00009.webp';
 $items = designs_by_category($designs, 'obje');
 
 require __DIR__ . '/../_inc/header.php';
