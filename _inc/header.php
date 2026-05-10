@@ -14,6 +14,7 @@ $pageCanonical = $pageCanonical ?? ltrim(parse_url($_SERVER['REQUEST_URI'] ?? 'i
 $pageType = $pageType ?? 'website';
 $robotsContent = $robotsContent ?? 'index, follow';
 $structuredData = $structuredData ?? [];
+$preloadImages = $preloadImages ?? [];
 
 $organizationSchema = [
     '@context' => 'https://schema.org',
@@ -82,6 +83,11 @@ $schemaGraph = array_merge([$organizationSchema, $webPageSchema], $structuredDat
   <title><?= e($pageTitle) ?></title>
   <link rel="icon" type="image/webp" href="<?= e(url('images/logo.webp')) ?>" />
   <link rel="apple-touch-icon" href="<?= e(url('images/logo.webp')) ?>" />
+  <?php foreach ($preloadImages as $preloadImage): ?>
+    <?= preload_image_link((string)$preloadImage['src'], (string)$preloadImage['sizes']) . "\n" ?>
+  <?php endforeach; ?>
+  <link rel="preload" href="<?= e(url('assets/fonts/SourceSans3-Medium.otf.woff2')) ?>" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="<?= e(url('assets/fonts/SourceSans3-Semibold.otf.woff2')) ?>" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="<?= e(asset_url('assets/css/main.css')) ?>" />
   <script type="application/ld+json"><?= json_encode(['@context' => 'https://schema.org', '@graph' => $schemaGraph], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
 </head>
@@ -109,8 +115,12 @@ $schemaGraph = array_merge([$organizationSchema, $webPageSchema], $structuredDat
       <ul class="nav">
         <?php foreach ($nav as $item): ?>
           <?php if (!empty($item['children'])): ?>
+            <?php
+              $itemHref = (string)($item['href'] ?? '#');
+              $itemUrl = $itemHref === '#' ? '#' : url($itemHref);
+            ?>
             <li class="has-sub">
-              <a href="#" aria-haspopup="true"><?= e($item['label']) ?></a>
+              <a href="<?= e($itemUrl) ?>" aria-haspopup="true"><?= e($item['label']) ?></a>
               <ul class="submenu" role="menu">
                 <?php foreach ($item['children'] as $child): ?>
                   <li><a href="<?= e(url($child['href'])) ?>"><?= e($child['label']) ?></a></li>

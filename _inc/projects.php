@@ -64,7 +64,7 @@ $projects = [
         'gallery'  => [
             ['kind' => 'pair', 'images' => [
                 ['src' => 'images/oda.webp', 'alt' => 'Yaşam alanı ana görseli'],
-                ['src' => 'images/oda.png', 'alt' => 'Yaşam alanı ikinci görseli'],
+                ['src' => 'images/oda-detail.webp', 'alt' => 'Yaşam alanı ikinci görseli'],
             ]],
         ],
     ],
@@ -99,6 +99,7 @@ $projects = [
         'title'    => 'Cafe',
         'category' => 'ticari',
         'sub'      => 'Cafe',
+        'nav_group' => 'cafe-restoran',
         'location' => 'İstanbul',
         'year'     => 2025,
         'cover'    => 'images/image00009.webp',
@@ -112,6 +113,14 @@ $projects = [
 function projects_by_category(array $projects, string $category): array
 {
     return array_filter($projects, static fn($p) => $p['category'] === $category);
+}
+
+function projects_by_nav_group(array $projects, string $category, string $navGroup): array
+{
+    return array_filter(
+        $projects,
+        static fn($p) => $p['category'] === $category && ($p['nav_group'] ?? '') === $navGroup
+    );
 }
 
 function find_project(array $projects, string $slug): ?array

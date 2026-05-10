@@ -849,6 +849,17 @@ main { padding-top: var(--header-h); }
   overflow: hidden;
 }
 
+.empty-state {
+  margin: 0 auto;
+  max-width: 520px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.7;
+  letter-spacing: 0.3px;
+  color: var(--ink-soft);
+}
+
 /* ==================== FOOTER ==================== */
 .site-footer {
   border-top: 1px solid var(--line);
@@ -1114,4 +1125,110 @@ main { padding-top: var(--header-h); }
 @media (hover: none) {
   a:hover { opacity: 1; }
   .project-card:hover .project-card__img img { transform: none; }
+}
+
+@media (max-width: 1180px) {
+  .site-header__inner {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 12px;
+  }
+
+  .menu-toggle {
+    display: block;
+    justify-self: end;
+    z-index: 2;
+  }
+
+  .header-right { display: none; }
+
+  .nav {
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0;
+    max-height: calc(100dvh - var(--header-h));
+    margin: 0;
+    padding: 18px var(--gutter) 28px;
+    overflow-y: auto;
+    background: rgba(251, 250, 245, 0.96);
+    border-top: 1px solid var(--line);
+    font-size: 11px;
+    letter-spacing: 1.4px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity .2s ease, visibility .2s ease, transform .2s ease;
+  }
+
+  .nav.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .nav > li {
+    padding: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav > li > a {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 46px;
+    padding: 14px 0;
+    white-space: normal;
+    line-height: 1.25;
+  }
+
+  .nav > li.has-sub > a::after {
+    width: 5px;
+    height: 5px;
+    margin-left: 10px;
+    transform: translateY(1px) rotate(45deg);
+  }
+
+  .nav > li.has-sub:hover > a::after {
+    transform: translateY(1px) rotate(45deg);
+  }
+
+  .nav > li.has-sub.open > a::after {
+    transform: translateY(3px) rotate(225deg);
+  }
+
+  .submenu,
+  .nav > li.has-sub:hover .submenu {
+    position: static;
+    display: none;
+    width: 100%;
+    min-width: 0;
+    padding: 0 0 12px 14px;
+    background: transparent;
+    border: 0;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+  }
+
+  .nav > li.has-sub.open .submenu {
+    display: flex;
+    flex-direction: column;
+    transform: none;
+  }
+
+  .submenu li a {
+    min-height: 30px;
+    padding: 7px 0;
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    line-height: 1.25;
+  }
 }

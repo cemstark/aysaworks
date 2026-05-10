@@ -4,6 +4,7 @@
   const nav = document.querySelector('.nav');
   const toggle = document.querySelector('.menu-toggle');
   const body = document.body;
+  const COMPACT_NAV_BP = 1180;
   const MOBILE_BP = 900;
   const subItems = nav ? Array.from(nav.querySelectorAll('.has-sub')) : [];
 
@@ -95,7 +96,7 @@
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        if (window.innerWidth > MOBILE_BP && nav.classList.contains('is-open')) setMenu(false);
+        if (window.innerWidth > COMPACT_NAV_BP && nav.classList.contains('is-open')) setMenu(false);
       }, 120);
     });
   }
@@ -107,7 +108,7 @@
 
     a.setAttribute('aria-expanded', 'false');
     a.addEventListener('click', (e) => {
-      if (window.innerWidth <= MOBILE_BP) {
+      if (window.innerWidth <= COMPACT_NAV_BP) {
         e.preventDefault();
         e.stopPropagation();
         const open = !li.classList.contains('open');
@@ -119,7 +120,7 @@
   });
 
   document.addEventListener('click', (e) => {
-    if (!nav || window.innerWidth > MOBILE_BP) return;
+    if (!nav || window.innerWidth > COMPACT_NAV_BP) return;
     if (!nav.contains(e.target)) closeSubmenus();
   });
 
