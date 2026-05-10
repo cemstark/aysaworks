@@ -987,12 +987,12 @@ main { padding-top: var(--header-h); }
 
   /* HERO — mobilde dar yatay şerit yerine doğal görünür alan */
   .hero__media {
-    aspect-ratio: 4 / 3;
-    max-height: 70vh;
+    aspect-ratio: 2048 / 969;
+    max-height: none;
   }
   .hero__media img {
-    object-fit: cover;
-    object-position: left center;
+    object-fit: contain;
+    object-position: center;
   }
 
   /* INTRO */
