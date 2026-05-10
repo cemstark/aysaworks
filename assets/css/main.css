@@ -992,6 +992,7 @@ main { padding-top: var(--header-h); }
   }
   .hero__media img {
     object-fit: cover;
+    object-position: left center;
   }
 
   /* INTRO */

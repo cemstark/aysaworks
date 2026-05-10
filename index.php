@@ -6,9 +6,9 @@ require __DIR__ . '/_inc/projects.php';
 $pageTitle = $site['name'] . ' — ' . $site['tagline'];
 $pageDescription = $site['description'];
 $pageCanonical = 'index.php';
-$pageImage = 'images/oda.webp';
+$pageImage = 'images/home-hero.webp';
 $preloadImages = [
-    ['src' => 'images/oda.webp', 'sizes' => '100vw'],
+    ['src' => 'images/home-hero.webp', 'sizes' => '100vw'],
 ];
 $featured = array_slice($projects, 0, 4, true);
 
@@ -17,7 +17,7 @@ require __DIR__ . '/_inc/header.php';
 
 <section class="hero">
   <div class="hero__media">
-    <?= responsive_img('images/oda.webp', 'Aysa Works iç mekân — sade yaşam alanı', '100vw', ['fetchpriority' => 'high']) ?>
+    <?= responsive_img('images/home-hero.webp', 'Aysa Works giriş görseli', '100vw', ['fetchpriority' => 'high']) ?>
   </div>
 </section>
 
