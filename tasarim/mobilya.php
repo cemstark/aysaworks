@@ -22,7 +22,7 @@ require __DIR__ . '/../_inc/header.php';
     <?php foreach ($items as $d): ?>
       <a class="project-card" href="#">
         <div class="project-card__img">
-          <img src="<?= e(url($d['cover'])) ?>" alt="<?= e($d['title']) ?>" loading="lazy" decoding="async" />
+          <?= responsive_img($d['cover'], $d['title'], '(max-width: 900px) 50vw, 33vw', ['loading' => 'lazy']) ?>
         </div>
         <h3 class="project-card__title"><?= e($d['title']) ?></h3>
         <p class="project-card__meta"><?= e($d['sub']) ?> · <?= e((string)$d['year']) ?></p>

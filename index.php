@@ -7,6 +7,9 @@ $pageTitle = $site['name'] . ' — ' . $site['tagline'];
 $pageDescription = $site['description'];
 $pageCanonical = 'index.php';
 $pageImage = 'images/oda.webp';
+$preloadImages = [
+    ['src' => 'images/oda.webp', 'sizes' => '100vw'],
+];
 $featured = array_slice($projects, 0, 4, true);
 
 require __DIR__ . '/_inc/header.php';
@@ -14,7 +17,7 @@ require __DIR__ . '/_inc/header.php';
 
 <section class="hero">
   <div class="hero__media">
-    <img src="<?= e(url('images/oda.webp')) ?>" alt="Aysa Works iç mekân — sade yaşam alanı" width="2560" height="1212" fetchpriority="high" decoding="async" />
+    <?= responsive_img('images/oda.webp', 'Aysa Works iç mekân — sade yaşam alanı', '100vw', ['fetchpriority' => 'high']) ?>
   </div>
 </section>
 
@@ -31,7 +34,7 @@ require __DIR__ . '/_inc/header.php';
     <?php foreach ($featured as $slug => $p): ?>
       <a class="project-card" href="<?= e(project_url($slug)) ?>">
         <div class="project-card__img">
-          <img src="<?= e(url($p['cover'])) ?>" alt="<?= e($p['title']) ?>" loading="lazy" decoding="async" />
+          <?= responsive_img($p['cover'], $p['title'], '(max-width: 900px) 50vw, 33vw', ['loading' => 'lazy']) ?>
         </div>
         <h3 class="project-card__title"><?= e($p['title']) ?></h3>
         <p class="project-card__meta"><?= e($p['sub']) ?> · <?= e($p['location']) ?> · <?= e((string)$p['year']) ?></p>

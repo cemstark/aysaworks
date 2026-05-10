@@ -168,22 +168,17 @@
 
   const inquiryForm = document.querySelector('.inquiry-form');
   if (inquiryForm) {
-    const projectInputs = inquiryForm.querySelectorAll('input[name="project_type"]');
-    const projectSelect = inquiryForm.querySelector('.project-type-select select');
+    const projectInputs = inquiryForm.querySelectorAll('input[name="project_type_choice"]');
+    const projectSelect = inquiryForm.querySelector('select[name="project_type"]');
     const projectFields = inquiryForm.querySelectorAll('[data-projects]');
     const dynamicLabels = inquiryForm.querySelectorAll('[data-label-konut]');
 
     const selectedProjectType = () => {
-      const selected = inquiryForm.querySelector('input[name="project_type"]:checked');
-      return selected ? selected.value : 'konut';
+      return projectSelect ? projectSelect.value : 'konut';
     };
 
     const syncProjectFields = () => {
       const projectType = selectedProjectType();
-
-      if (projectSelect && projectSelect.value !== projectType) {
-        projectSelect.value = projectType;
-      }
 
       projectFields.forEach((field) => {
         const allowed = (field.dataset.projects || '').split(/\s+/).filter(Boolean);
@@ -206,14 +201,21 @@
       });
     };
 
-    projectInputs.forEach((input) => input.addEventListener('change', syncProjectFields));
+    projectInputs.forEach((input) => {
+      input.addEventListener('change', () => {
+        if (projectSelect) {
+          projectSelect.value = input.value;
+        }
+        syncProjectFields();
+      });
+    });
     if (projectSelect) {
       projectSelect.addEventListener('change', () => {
-        const input = inquiryForm.querySelector(`input[name="project_type"][value="${projectSelect.value}"]`);
+        const input = inquiryForm.querySelector(`input[name="project_type_choice"][value="${projectSelect.value}"]`);
         if (input) {
           input.checked = true;
-          syncProjectFields();
         }
+        syncProjectFields();
       });
     }
     syncProjectFields();

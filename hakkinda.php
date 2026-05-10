@@ -5,12 +5,15 @@ $pageTitle = 'Hakkında — ' . $site['name'];
 $pageDescription = 'Aysa Works hakkında: İstanbul merkezli iç mimarlık ve tasarım stüdyosunun malzeme, oran, ışık ve zanaat odaklı yaklaşımı.';
 $pageCanonical = 'hakkinda.php';
 $pageImage = 'images/aysa-portrait.webp';
+$preloadImages = [
+    ['src' => 'images/aysa-portrait.webp', 'sizes' => '(max-width: 900px) calc(100vw - 40px), calc(100vw - 128px)'],
+];
 require __DIR__ . '/_inc/header.php';
 ?>
 
 <section class="about-section">
   <div class="about-grid">
-    <img src="<?= e(url('images/aysa-portrait.webp')) ?>" alt="Aysa Yağız" width="1600" height="533" fetchpriority="high" decoding="async" />
+    <?= responsive_img('images/aysa-portrait.webp', 'Aysa Yağız', '(max-width: 900px) calc(100vw - 40px), calc(100vw - 128px)', ['fetchpriority' => 'high']) ?>
     <div class="about-text">
       <h1><?= e($site['name']) ?> hakkında</h1>
       <p><?= e($site['name']) ?>; iç mimar Aysa Yağız tarafından <?= e($site['city']) ?>'da kurulan, konut ve ticari iç mekânlar ile özel mobilya ve obje tasarımı yapan bir tasarım stüdyosudur.</p>

@@ -1,5 +1,14 @@
 <?php
+session_cache_limiter('');
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https'),
+    'httponly' => true,
+    'samesite' => 'Lax',
+]);
 session_start();
+header('Cache-Control: private, no-cache, must-revalidate');
 
 $root = './';
 require __DIR__ . '/_inc/site.php';
@@ -79,7 +88,7 @@ require __DIR__ . '/_inc/header.php';
       <fieldset class="project-type-fieldset">
         <legend>Proje türü</legend>
         <div class="project-type-select">
-          <select aria-label="Proje türü seçimi">
+          <select name="project_type" aria-label="Proje türü seçimi">
             <?php foreach ($projectTypes as $value => $label): ?>
               <option value="<?= e($value) ?>"<?= $selectedProjectType === $value ? ' selected' : '' ?>><?= e($label) ?></option>
             <?php endforeach; ?>
@@ -88,7 +97,7 @@ require __DIR__ . '/_inc/header.php';
         <div class="project-type-options">
           <?php foreach ($projectTypes as $value => $label): ?>
             <label class="project-type-option">
-              <input type="radio" name="project_type" value="<?= e($value) ?>"<?= $selectedProjectType === $value ? ' checked' : '' ?> />
+              <input type="radio" name="project_type_choice" value="<?= e($value) ?>"<?= $selectedProjectType === $value ? ' checked' : '' ?> />
               <span><?= e($label) ?></span>
             </label>
           <?php endforeach; ?>

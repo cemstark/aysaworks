@@ -57,11 +57,11 @@ require __DIR__ . '/../_inc/header.php';
 <section class="project-gallery">
   <?php foreach ($project['gallery'] as $block): ?>
     <?php if ($block['kind'] === 'full'): ?>
-      <img src="<?= e(url($block['src'])) ?>" alt="<?= e($block['alt']) ?>" loading="lazy" decoding="async" />
+      <?= responsive_img($block['src'], $block['alt'], '(max-width: 900px) calc(100vw - 40px), calc(100vw - 128px)', ['loading' => 'lazy']) ?>
     <?php elseif ($block['kind'] === 'pair'): ?>
       <div class="row-2">
         <?php foreach ($block['images'] as $img): ?>
-          <img src="<?= e(url($img['src'])) ?>" alt="<?= e($img['alt']) ?>" loading="lazy" decoding="async" />
+          <?= responsive_img($img['src'], $img['alt'], '(max-width: 900px) calc(100vw - 40px), 50vw', ['loading' => 'lazy']) ?>
         <?php endforeach; ?>
       </div>
     <?php endif; ?>
@@ -86,7 +86,7 @@ require __DIR__ . '/../_inc/header.php';
       foreach ($images as $img):
     ?>
       <div class="project-index__item">
-        <img src="<?= e(url($img['src'])) ?>" alt="" loading="lazy" decoding="async" />
+        <?= responsive_img($img['src'], '', '(max-width: 900px) 50vw, 140px', ['loading' => 'lazy']) ?>
         <p><?= str_pad((string)$index++, 2, '0', STR_PAD_LEFT) ?></p>
       </div>
     <?php endforeach; endforeach; ?>
